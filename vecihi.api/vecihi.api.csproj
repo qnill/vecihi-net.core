@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\vecihi.auth\vecihi.auth.csproj" />
-    <ProjectReference Include="..\vecihi.service\vecihi.service.csproj" />
   </ItemGroup>
 
 </Project>
