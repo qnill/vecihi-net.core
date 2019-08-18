@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vecihi.api", "vecihi.api\vecihi.api.csproj", "{77478FCF-0415-484E-A78B-0E89F5925177}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{18BF30A2-A0E4-4820-BD63-A9BB9AE65D36}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{DC65EF1D-FCF0-47AD-BD65-07BA337B2573}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vecihi.service", "vecihi.service\vecihi.service.csproj", "{884A11AC-B794-40B9-BBA0-B5AEF5F77D01}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auth", "Auth", "{998E2CE0-F669-46C9-9648-8AE82DCB8DB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vecihi.auth", "vecihi.auth\vecihi.auth.csproj", "{B3EAF5B5-9EDA-43F8-81FD-A79B081450B7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{77478FCF-0415-484E-A78B-0E89F5925177}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77478FCF-0415-484E-A78B-0E89F5925177}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77478FCF-0415-484E-A78B-0E89F5925177}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77478FCF-0415-484E-A78B-0E89F5925177}.Release|Any CPU.Build.0 = Release|Any CPU
+		{884A11AC-B794-40B9-BBA0-B5AEF5F77D01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{884A11AC-B794-40B9-BBA0-B5AEF5F77D01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{884A11AC-B794-40B9-BBA0-B5AEF5F77D01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{884A11AC-B794-40B9-BBA0-B5AEF5F77D01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3EAF5B5-9EDA-43F8-81FD-A79B081450B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3EAF5B5-9EDA-43F8-81FD-A79B081450B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3EAF5B5-9EDA-43F8-81FD-A79B081450B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3EAF5B5-9EDA-43F8-81FD-A79B081450B7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{77478FCF-0415-484E-A78B-0E89F5925177} = {18BF30A2-A0E4-4820-BD63-A9BB9AE65D36}
+		{884A11AC-B794-40B9-BBA0-B5AEF5F77D01} = {DC65EF1D-FCF0-47AD-BD65-07BA337B2573}
+		{B3EAF5B5-9EDA-43F8-81FD-A79B081450B7} = {998E2CE0-F669-46C9-9648-8AE82DCB8DB6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2E0D573C-2C7D-424F-8741-9E46A80545A8}
+	EndGlobalSection
+EndGlobal
