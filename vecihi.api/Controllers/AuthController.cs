@@ -30,11 +30,11 @@ namespace vecihi.api.Controllers
 
             var user = await _userManager.FindByNameAsync(model.UserName);
 
-            ///ToDo: Const'dan mesaj döndür
+            // ToDo: Const'dan mesaj döndür
             if (user == null || !(await _userManager.CheckPasswordAsync(user, model.Password)))
                 return BadRequest("CONST-MESSAGES-DONECEK");
 
-            /// Set Claims
+            // Set Claims
             var claimsIdentity = _jwtService.GenerateClaimsIdentity(user.Id, user.UserName);
 
             var jwt = await _jwtService.GenerateJwt(claimsIdentity, model.UserName);
@@ -48,8 +48,8 @@ namespace vecihi.api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            ///ToDo: Mapping'e bağla
-            ///Service-Yaz
+            // ToDo: Mapping'e bağla
+            // Service-Yaz
             var authUser = new AuthUser
             {
                 Id = Guid.NewGuid().ToString(),
@@ -60,11 +60,11 @@ namespace vecihi.api.Controllers
 
             var result = await _userManager.CreateAsync(authUser, model.Password);
             
-            ///ToDo: Const'dan mesaj döndür - APIResult'a bağla
+            // ToDo: Const'dan mesaj döndür - APIResult'a bağla
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
-            ///ToDo: APIResult'a bağla
+            // ToDo: APIResult'a bağla
             return Ok();
         }
     }
