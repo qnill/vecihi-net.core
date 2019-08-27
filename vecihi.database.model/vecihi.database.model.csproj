@@ -1,16 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\vecihi.database\vecihi.database.csproj" />
-    <ProjectReference Include="..\vecihi.helper\vecihi.helper.csproj" />
     <ProjectReference Include="..\vecihi.infrastructure.entity\vecihi.infrastructure.entity.csproj" />
   </ItemGroup>
 

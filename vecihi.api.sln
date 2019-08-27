@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.572
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vecihi.api", "vecihi.api\vecihi.api.csproj", "{77478FCF-0415-484E-A78B-0E89F5925177}"
 EndProject
@@ -21,13 +21,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{9741EB4D-D9DD-4C78-8024-5CE1611775DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vecihi.database", "vecihi.database\vecihi.database.csproj", "{8349E068-FA31-4AB9-85EF-DB145FA0351C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vecihi.database", "vecihi.database\vecihi.database.csproj", "{8349E068-FA31-4AB9-85EF-DB145FA0351C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vecihi.domain", "vecihi.domain\vecihi.domain.csproj", "{954655C7-1D25-413D-ACDD-E40B7B7B97D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vecihi.domain", "vecihi.domain\vecihi.domain.csproj", "{954655C7-1D25-413D-ACDD-E40B7B7B97D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vecihi.helper", "vecihi.helper\vecihi.helper.csproj", "{EAE11D5E-43C0-4F48-B4C2-37CCCDC699FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vecihi.helper", "vecihi.helper\vecihi.helper.csproj", "{EAE11D5E-43C0-4F48-B4C2-37CCCDC699FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vecihi.infrastructure", "vecihi.infrastructure\vecihi.infrastructure.csproj", "{B3AABD70-673F-4EC1-8E90-45A1A57119E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vecihi.infrastructure", "vecihi.infrastructure\vecihi.infrastructure.csproj", "{B3AABD70-673F-4EC1-8E90-45A1A57119E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vecihi.infrastructure.entity", "vecihi.infrastructure.entity\vecihi.infrastructure.entity.csproj", "{53007CC3-8233-4C15-B08C-7E7CBC2EC24F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vecihi.database.model", "vecihi.database.model\vecihi.database.model.csproj", "{A1B28236-6CB9-4D9A-B189-CDB5336CB377}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +63,14 @@ Global
 		{B3AABD70-673F-4EC1-8E90-45A1A57119E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3AABD70-673F-4EC1-8E90-45A1A57119E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3AABD70-673F-4EC1-8E90-45A1A57119E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53007CC3-8233-4C15-B08C-7E7CBC2EC24F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53007CC3-8233-4C15-B08C-7E7CBC2EC24F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53007CC3-8233-4C15-B08C-7E7CBC2EC24F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53007CC3-8233-4C15-B08C-7E7CBC2EC24F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B28236-6CB9-4D9A-B189-CDB5336CB377}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B28236-6CB9-4D9A-B189-CDB5336CB377}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B28236-6CB9-4D9A-B189-CDB5336CB377}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B28236-6CB9-4D9A-B189-CDB5336CB377}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,6 +82,8 @@ Global
 		{954655C7-1D25-413D-ACDD-E40B7B7B97D9} = {DDABAF44-EA99-4494-9CDA-E9660FEBA112}
 		{EAE11D5E-43C0-4F48-B4C2-37CCCDC699FA} = {9BEC083A-2459-4CD8-85B1-7574FBD32903}
 		{B3AABD70-673F-4EC1-8E90-45A1A57119E3} = {50C60DE4-8602-45C5-83AD-997058E45FAE}
+		{53007CC3-8233-4C15-B08C-7E7CBC2EC24F} = {50C60DE4-8602-45C5-83AD-997058E45FAE}
+		{A1B28236-6CB9-4D9A-B189-CDB5336CB377} = {75C0B4B1-1540-4BA2-B7CC-C26DB169C274}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E0D573C-2C7D-424F-8741-9E46A80545A8}

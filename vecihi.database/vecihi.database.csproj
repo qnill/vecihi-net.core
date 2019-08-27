@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\vecihi.database.model\vecihi.database.model.csproj" />
   </ItemGroup>
 
 </Project>

@@ -8,4 +8,18 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\vecihi.database.model\vecihi.database.model.csproj" />
+    <ProjectReference Include="..\vecihi.database\vecihi.database.csproj" />
+    <ProjectReference Include="..\vecihi.helper\vecihi.helper.csproj" />
+    <ProjectReference Include="..\vecihi.infrastructure\vecihi.infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Modules\AutoCodeLog\" />
+    <Folder Include="Modules\AutoCode\" />
+    <Folder Include="Modules\File\" />
+    <Folder Include="Modules\User\" />
+  </ItemGroup>
+
 </Project>

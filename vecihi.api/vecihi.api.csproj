@@ -19,6 +19,9 @@
   <ItemGroup>
     <ProjectReference Include="..\vecihi.auth\vecihi.auth.csproj" />
     <ProjectReference Include="..\vecihi.database\vecihi.database.csproj" />
+    <ProjectReference Include="..\vecihi.domain\vecihi.domain.csproj" />
+    <ProjectReference Include="..\vecihi.helper\vecihi.helper.csproj" />
+    <ProjectReference Include="..\vecihi.infrastructure\vecihi.infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
