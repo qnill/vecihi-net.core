@@ -156,7 +156,7 @@ namespace vecihi.auth.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "7cbf9971-7957-48dd-8198-3394a9bf0059", 0, "53abffed-057d-48f6-9db5-48a4e6c56990", "qnill@foo.com", true, false, null, "QNILL@FOO.COM", "QNILL", "AQAAAAEAACcQAAAAEC/KeleS/k7lthob6I4KqyVd8BPT0TyK0RrtVfDMINUWHMGv12aFmNJTuHdem4TUyQ==", null, false, "c6cca144-11df-4d8e-afa5-5c74cc0980f7", false, "qnill" });
+                values: new object[] { "7cbf9971-7957-48dd-8198-3394a9bf0059", 0, "dd9a3c9b-5906-40b1-aa1a-4598e3ef12bc", "qnill@foo.com", true, false, null, "QNILL@FOO.COM", "QNILL", "AQAAAAEAACcQAAAAEDnh1YuCQbrYcSSnKo+MkhYYADrRwzFx0DslYUV26XmKUsL21wwFIU8jQj4uICCu+g==", null, false, "b6dfd8f4-de6d-44c5-bdfe-d11f29b7d644", false, "qnill" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

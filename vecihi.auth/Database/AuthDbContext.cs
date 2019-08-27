@@ -5,10 +5,9 @@ namespace vecihi.auth
 {
     public class AuthDbContext : IdentityDbContext<AuthUser>
     {
-        public AuthDbContext(DbContextOptions options)
+        public AuthDbContext(DbContextOptions<AuthDbContext> options)
             : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

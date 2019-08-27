@@ -184,15 +184,15 @@ namespace vecihi.auth.Migrations
                         {
                             Id = "7cbf9971-7957-48dd-8198-3394a9bf0059",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "53abffed-057d-48f6-9db5-48a4e6c56990",
+                            ConcurrencyStamp = "dd9a3c9b-5906-40b1-aa1a-4598e3ef12bc",
                             Email = "qnill@foo.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "QNILL@FOO.COM",
                             NormalizedUserName = "QNILL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEC/KeleS/k7lthob6I4KqyVd8BPT0TyK0RrtVfDMINUWHMGv12aFmNJTuHdem4TUyQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDnh1YuCQbrYcSSnKo+MkhYYADrRwzFx0DslYUV26XmKUsL21wwFIU8jQj4uICCu+g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c6cca144-11df-4d8e-afa5-5c74cc0980f7",
+                            SecurityStamp = "b6dfd8f4-de6d-44c5-bdfe-d11f29b7d644",
                             TwoFactorEnabled = false,
                             UserName = "qnill"
                         });

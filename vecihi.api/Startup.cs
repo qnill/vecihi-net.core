@@ -14,6 +14,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using vecihi.auth;
+using vecihi.database;
 
 namespace vecihi.api
 {
@@ -33,8 +34,11 @@ namespace vecihi.api
         {
             #region Context
 
-            services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("vecihiDbContext"),
+            services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("vecihiDbConnection"),
                 b => b.MigrationsAssembly("vecihi.auth")));
+
+            services.AddDbContext<VecihiDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("vecihiDbConnection"),
+              b => b.MigrationsAssembly("vecihi.database")));
 
             #endregion
 
