@@ -23,7 +23,7 @@ namespace vecihi.api.Controllers
 
         [AllowAnonymous]
         [Route("Login"),HttpPost]
-        public async Task<IActionResult> Post(LoginDto model)
+        public async Task<IActionResult> Login(LoginDto model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
