@@ -184,15 +184,15 @@ namespace vecihi.auth.Migrations
                         {
                             Id = "7cbf9971-7957-48dd-8198-3394a9bf0059",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dd9a3c9b-5906-40b1-aa1a-4598e3ef12bc",
+                            ConcurrencyStamp = "48d65455-85ba-49a8-ad60-a00fde32ca38",
                             Email = "qnill@foo.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "QNILL@FOO.COM",
                             NormalizedUserName = "QNILL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDnh1YuCQbrYcSSnKo+MkhYYADrRwzFx0DslYUV26XmKUsL21wwFIU8jQj4uICCu+g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBxQnIqwjNdM+Mx7u6/1v7cexkT8qihKBNHKl7jDMiin/QX50EowRlp909E5rOo7WQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b6dfd8f4-de6d-44c5-bdfe-d11f29b7d644",
+                            SecurityStamp = "f8651065-7997-4fc0-bbd4-0db242cc8521",
                             TwoFactorEnabled = false,
                             UserName = "qnill"
                         });
@@ -203,7 +203,7 @@ namespace vecihi.auth.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -211,7 +211,7 @@ namespace vecihi.auth.Migrations
                     b.HasOne("vecihi.auth.AuthUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -219,7 +219,7 @@ namespace vecihi.auth.Migrations
                     b.HasOne("vecihi.auth.AuthUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -227,12 +227,12 @@ namespace vecihi.auth.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("vecihi.auth.AuthUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -240,7 +240,7 @@ namespace vecihi.auth.Migrations
                     b.HasOne("vecihi.auth.AuthUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

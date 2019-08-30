@@ -12,7 +12,7 @@ namespace vecihi.database.model
     /// and the Id of the record to see the installed files of the relevant record.
     /// For downloading, Id of uploaded file should be sent.
     /// </summary>
-    public class FileModel : EntityBaseAudit<Guid>
+    public class File : EntityBaseAudit<Guid>
     {
         /// <summary>
         /// The Id of the record that the uploaded file is linked to

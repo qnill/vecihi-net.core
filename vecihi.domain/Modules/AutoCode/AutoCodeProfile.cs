@@ -7,9 +7,9 @@ namespace vecihi.domain.Modules
     {
         public AutoCodeProfile()
         {
-            CreateMap<AutoCodeAddDto, AutoCodeModel>();
-            CreateMap<AutoCodeUpdateDto, AutoCodeModel>();
-            CreateMap<AutoCodeModel, AutoCodeGetDto>();
+            CreateMap<AutoCodeAddDto, AutoCode>();
+            CreateMap<AutoCodeUpdateDto, AutoCode>();
+            CreateMap<AutoCode, AutoCodeGetDto>();
         }
     }
 }

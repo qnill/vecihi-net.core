@@ -8,8 +8,8 @@ namespace vecihi.database
     {
         public static void Seed(this ModelBuilder builder)
         {
-            builder.Entity<UserModel>().HasData(
-                new UserModel
+            builder.Entity<User>().HasData(
+                new User
                 {
                     Id = Guid.Parse("0c5337a5-ca82-4c97-94e9-00101a1d749d"),
                     Name = "qnill",

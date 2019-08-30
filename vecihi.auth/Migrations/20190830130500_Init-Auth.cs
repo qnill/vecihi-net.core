@@ -65,7 +65,7 @@ namespace vecihi.auth.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,7 +86,7 @@ namespace vecihi.auth.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -106,7 +106,7 @@ namespace vecihi.auth.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -124,13 +124,13 @@ namespace vecihi.auth.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -150,13 +150,13 @@ namespace vecihi.auth.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "7cbf9971-7957-48dd-8198-3394a9bf0059", 0, "dd9a3c9b-5906-40b1-aa1a-4598e3ef12bc", "qnill@foo.com", true, false, null, "QNILL@FOO.COM", "QNILL", "AQAAAAEAACcQAAAAEDnh1YuCQbrYcSSnKo+MkhYYADrRwzFx0DslYUV26XmKUsL21wwFIU8jQj4uICCu+g==", null, false, "b6dfd8f4-de6d-44c5-bdfe-d11f29b7d644", false, "qnill" });
+                values: new object[] { "7cbf9971-7957-48dd-8198-3394a9bf0059", 0, "48d65455-85ba-49a8-ad60-a00fde32ca38", "qnill@foo.com", true, false, null, "QNILL@FOO.COM", "QNILL", "AQAAAAEAACcQAAAAEBxQnIqwjNdM+Mx7u6/1v7cexkT8qihKBNHKl7jDMiin/QX50EowRlp909E5rOo7WQ==", null, false, "f8651065-7997-4fc0-bbd4-0db242cc8521", false, "qnill" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

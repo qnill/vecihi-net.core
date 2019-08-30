@@ -9,7 +9,7 @@ namespace vecihi.database.model
     /// If you customize this class, you need to customize the classes 
     /// in the 'UserDto' file so that the related services can work properly.
     /// </summary>
-    public class UserModel : EntityBaseAudit<Guid>
+    public class User : EntityBaseAudit<Guid>
     {
         [Required, MaxLength(50)]
         public string Name { get; set; }
@@ -24,11 +24,11 @@ namespace vecihi.database.model
 
         //FK
         //AutoCodeLog
-        public virtual ICollection<AutoCodeLogModel> AutoCodeLogs { get; set; }
+        public virtual ICollection<AutoCodeLog> AutoCodeLogs { get; set; }
 
-        public UserModel()
+        public User()
         {
-            AutoCodeLogs = new List<AutoCodeLogModel>();
+            AutoCodeLogs = new List<AutoCodeLog>();
         }
     }
 }

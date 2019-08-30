@@ -13,7 +13,7 @@ namespace vecihi.database.model
     /// the corresponding service is triggered and the automatic code is generated before
     /// the 'post' operation is performed on the code format defined screen.
     /// </summary>
-    public class AutoCodeModel : EntityBaseAudit<Guid>
+    public class AutoCode : EntityBaseAudit<Guid>
     {
         /// <summary>
         /// Fixed screen codes
@@ -30,11 +30,11 @@ namespace vecihi.database.model
 
         //FK
         //AutoCodeLog
-        public virtual ICollection<AutoCodeLogModel> AutoCodeLogs { get; set; }
+        public virtual ICollection<AutoCodeLog> AutoCodeLogs { get; set; }
 
-        public AutoCodeModel()
+        public AutoCode()
         {
-            AutoCodeLogs = new List<AutoCodeLogModel>();
+            AutoCodeLogs = new List<AutoCodeLog>();
         }
     }
 

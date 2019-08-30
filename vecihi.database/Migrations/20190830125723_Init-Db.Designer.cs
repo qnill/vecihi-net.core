@@ -10,7 +10,7 @@ using vecihi.database;
 namespace vecihi.database.Migrations
 {
     [DbContext(typeof(VecihiDbContext))]
-    [Migration("20190827140020_InitDb")]
+    [Migration("20190830125723_Init-Db")]
     partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,31 +21,7 @@ namespace vecihi.database.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("vecihi.database.model.AutoCodeLogModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("AutoCodeId");
-
-                    b.Property<DateTime>("CodeGenerationDate");
-
-                    b.Property<int>("CodeNumber");
-
-                    b.Property<Guid>("GeneratedBy");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AutoCodeId");
-
-                    b.HasIndex("GeneratedBy");
-
-                    b.ToTable("AutoCodeLog");
-                });
-
-            modelBuilder.Entity("vecihi.database.model.AutoCodeModel", b =>
+            modelBuilder.Entity("vecihi.database.model.AutoCode", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -75,7 +51,31 @@ namespace vecihi.database.Migrations
                     b.ToTable("AutoCode");
                 });
 
-            modelBuilder.Entity("vecihi.database.model.FileModel", b =>
+            modelBuilder.Entity("vecihi.database.model.AutoCodeLog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("AutoCodeId");
+
+                    b.Property<DateTime>("CodeGenerationDate");
+
+                    b.Property<int>("CodeNumber");
+
+                    b.Property<Guid>("GeneratedBy");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AutoCodeId");
+
+                    b.HasIndex("GeneratedBy");
+
+                    b.ToTable("AutoCodeLog");
+                });
+
+            modelBuilder.Entity("vecihi.database.model.File", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -115,7 +115,7 @@ namespace vecihi.database.Migrations
                     b.ToTable("File");
                 });
 
-            modelBuilder.Entity("vecihi.database.model.UserModel", b =>
+            modelBuilder.Entity("vecihi.database.model.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -152,7 +152,7 @@ namespace vecihi.database.Migrations
                         new
                         {
                             Id = new Guid("0c5337a5-ca82-4c97-94e9-00101a1d749d"),
-                            CreatedAt = new DateTime(2019, 8, 27, 17, 0, 20, 419, DateTimeKind.Local).AddTicks(564),
+                            CreatedAt = new DateTime(2019, 8, 30, 15, 57, 23, 480, DateTimeKind.Local).AddTicks(6109),
                             CreatedBy = new Guid("0c5337a5-ca82-4c97-94e9-00101a1d749d"),
                             ExternalAuthId = new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"),
                             IsDeleted = false,
@@ -160,14 +160,14 @@ namespace vecihi.database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("vecihi.database.model.AutoCodeLogModel", b =>
+            modelBuilder.Entity("vecihi.database.model.AutoCodeLog", b =>
                 {
-                    b.HasOne("vecihi.database.model.AutoCodeModel", "AutoCode")
+                    b.HasOne("vecihi.database.model.AutoCode", "AutoCode")
                         .WithMany("AutoCodeLogs")
                         .HasForeignKey("AutoCodeId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("vecihi.database.model.UserModel", "User")
+                    b.HasOne("vecihi.database.model.User", "User")
                         .WithMany("AutoCodeLogs")
                         .HasForeignKey("GeneratedBy")
                         .OnDelete(DeleteBehavior.Restrict);

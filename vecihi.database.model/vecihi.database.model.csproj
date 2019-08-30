@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\vecihi.helper\vecihi.helper.csproj" />
     <ProjectReference Include="..\vecihi.infrastructure.entity\vecihi.infrastructure.entity.csproj" />
   </ItemGroup>
 

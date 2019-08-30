@@ -7,7 +7,7 @@ namespace vecihi.database.model
     /// <summary>
     /// It keeps logs of the automatic code system.
     /// </summary>
-    public class AutoCodeLogModel : EntityBase<Guid>
+    public class AutoCodeLog : EntityBase<Guid>
     {
         public int CodeNumber { get; set; }
         public DateTime CodeGenerationDate { get; set; }
@@ -15,11 +15,11 @@ namespace vecihi.database.model
         //FK
         //AutoCodeGenerator
         public Guid AutoCodeId { get; set; }
-        public virtual AutoCodeModel AutoCode { get; set; }
+        public virtual AutoCode AutoCode { get; set; }
 
         //User
         public Guid GeneratedBy { get; set; }
         [ForeignKey("GeneratedBy")]
-        public virtual UserModel User { get; set; }
+        public virtual User User { get; set; }
     }
 }

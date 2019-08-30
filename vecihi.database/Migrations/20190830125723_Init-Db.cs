@@ -100,7 +100,7 @@ namespace vecihi.database.Migrations
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "CreatedAt", "CreatedBy", "Email", "ExternalAuthId", "IsDeleted", "LastLoginDate", "Name", "Phone", "UpdatedAt", "UpdatedBy" },
-                values: new object[] { new Guid("0c5337a5-ca82-4c97-94e9-00101a1d749d"), new DateTime(2019, 8, 27, 17, 0, 20, 419, DateTimeKind.Local).AddTicks(564), new Guid("0c5337a5-ca82-4c97-94e9-00101a1d749d"), null, new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"), false, null, "qnill", null, null, null });
+                values: new object[] { new Guid("0c5337a5-ca82-4c97-94e9-00101a1d749d"), new DateTime(2019, 8, 30, 15, 57, 23, 480, DateTimeKind.Local).AddTicks(6109), new Guid("0c5337a5-ca82-4c97-94e9-00101a1d749d"), null, new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"), false, null, "qnill", null, null, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AutoCodeLog_AutoCodeId",
