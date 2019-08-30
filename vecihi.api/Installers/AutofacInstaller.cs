@@ -3,7 +3,6 @@ using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
-using System.Reflection;
 
 namespace vecihi.api.Installers
 {
@@ -15,7 +14,6 @@ namespace vecihi.api.Installers
             builder.Populate(services);
 
             // Load All Services
-            Assembly.Load("vecihi.domain");
             builder.RegisterAssemblyTypes(AppDomain.CurrentDomain.GetAssemblies())
                 .Where(x => x.Name.EndsWith("Service"))
                 .AsImplementedInterfaces()

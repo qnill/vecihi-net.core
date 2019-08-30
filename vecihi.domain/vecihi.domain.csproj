@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
   </ItemGroup>
 
@@ -17,7 +18,6 @@
 
   <ItemGroup>
     <Folder Include="Modules\AutoCodeLog\" />
-    <Folder Include="Modules\AutoCode\" />
     <Folder Include="Modules\File\" />
     <Folder Include="Modules\User\" />
   </ItemGroup>

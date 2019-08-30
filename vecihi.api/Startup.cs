@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Reflection;
 using vecihi.api.Installers;
 
 namespace vecihi.api
@@ -18,6 +19,9 @@ namespace vecihi.api
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            // Load Assembly
+            Assembly.Load("vecihi.domain");
+
             // Install Service Registrations 
             services.InstallServicesInAssembly(Configuration);
 
