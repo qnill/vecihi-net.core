@@ -14,11 +14,11 @@ namespace vecihi.api.Installers
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(x => x.GetTypes())
                 .Where(x => typeof(Profile).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
-                .ToArray();
+                .ToList();
 
-            types[types.Count()] = typeof(AutocompleteProfile<Guid>);
+            types.Add(typeof(AutocompleteProfile<Guid>));
 
-            services.AddAutoMapper(types);
+            services.AddAutoMapper(types.ToArray());
         }
     }
 }
