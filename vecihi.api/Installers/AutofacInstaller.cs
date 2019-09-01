@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
@@ -20,8 +21,9 @@ namespace vecihi.api.Installers
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
 
-            // UnitofWork
             builder.RegisterType<UnitOfWork<Guid>>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<HttpContextAccessor>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType<IdentityClaimsValue>().AsSelf().InstancePerLifetimeScope();
 
             var container = builder.Build();
             return new AutofacServiceProvider(container);
