@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using vecihi.infrastructure.entity.models;
 
 namespace vecihi.database.model
@@ -11,15 +10,11 @@ namespace vecihi.database.model
     {
         public int CodeNumber { get; set; }
         public DateTime CodeGenerationDate { get; set; }
+        public Guid GeneratedBy { get; set; }
 
         //FK
         //AutoCodeGenerator
         public Guid AutoCodeId { get; set; }
         public virtual AutoCode AutoCode { get; set; }
-
-        //User
-        public Guid GeneratedBy { get; set; }
-        [ForeignKey("GeneratedBy")]
-        public virtual User User { get; set; }
     }
 }

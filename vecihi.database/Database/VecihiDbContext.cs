@@ -28,7 +28,7 @@ namespace vecihi.database
         /// <summary> 
         /// ToDo: Translate - DataSet objeleri test tarafında ezilip in-memory olarak kullanılacağı için virtual olarak tanımlanmıştır.
         /// </summary>
-        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<AutoCode> AutoCode { get; set; }
         public virtual DbSet<AutoCodeLog> AutoCodeLog { get; set; }
         public virtual DbSet<File> File { get; set; }

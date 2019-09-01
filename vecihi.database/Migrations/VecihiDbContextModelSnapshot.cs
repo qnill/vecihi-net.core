@@ -68,9 +68,52 @@ namespace vecihi.database.Migrations
 
                     b.HasIndex("AutoCodeId");
 
-                    b.HasIndex("GeneratedBy");
-
                     b.ToTable("AutoCodeLog");
+                });
+
+            modelBuilder.Entity("vecihi.database.model.Employee", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<Guid>("CreatedBy");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("LastLoginDate");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Phone")
+                        .HasMaxLength(20);
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<Guid?>("UpdatedBy");
+
+                    b.Property<Guid?>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Employee");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("0c5337a5-ca82-4c97-94e9-00101a1d749d"),
+                            CreatedAt = new DateTime(2019, 9, 1, 16, 13, 24, 575, DateTimeKind.Local).AddTicks(9953),
+                            CreatedBy = new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"),
+                            IsDeleted = false,
+                            Name = "qnill",
+                            UserId = new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059")
+                        });
                 });
 
             modelBuilder.Entity("vecihi.database.model.File", b =>
@@ -113,61 +156,11 @@ namespace vecihi.database.Migrations
                     b.ToTable("File");
                 });
 
-            modelBuilder.Entity("vecihi.database.model.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<Guid>("CreatedBy");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(50);
-
-                    b.Property<Guid?>("ExternalAuthId");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("LastLoginDate");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Phone")
-                        .HasMaxLength(20);
-
-                    b.Property<DateTime?>("UpdatedAt");
-
-                    b.Property<Guid?>("UpdatedBy");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("0c5337a5-ca82-4c97-94e9-00101a1d749d"),
-                            CreatedAt = new DateTime(2019, 8, 30, 15, 57, 23, 480, DateTimeKind.Local).AddTicks(6109),
-                            CreatedBy = new Guid("0c5337a5-ca82-4c97-94e9-00101a1d749d"),
-                            ExternalAuthId = new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"),
-                            IsDeleted = false,
-                            Name = "qnill"
-                        });
-                });
-
             modelBuilder.Entity("vecihi.database.model.AutoCodeLog", b =>
                 {
                     b.HasOne("vecihi.database.model.AutoCode", "AutoCode")
                         .WithMany("AutoCodeLogs")
                         .HasForeignKey("AutoCodeId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("vecihi.database.model.User", "User")
-                        .WithMany("AutoCodeLogs")
-                        .HasForeignKey("GeneratedBy")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
