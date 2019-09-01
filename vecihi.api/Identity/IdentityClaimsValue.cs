@@ -14,14 +14,19 @@ namespace vecihi.api
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public Guid UserId
+        public Guid UserId()
         {
-            get { return Guid.Parse(_httpContextAccessor.HttpContext.User.Claims.First(x => x.Type == JWTClaimIdentifier.UserId).Value); }
+            return Guid.Parse(_httpContextAccessor.HttpContext.User.Claims.First(x => x.Type == JWTClaimIdentifier.UserId).Value);
         }
 
-        public string UserName
+        public Type UserId<Type>()
         {
-            get { return _httpContextAccessor.HttpContext.User.Claims.First(x => x.Type == JWTClaimIdentifier.UserName).Value; }
+            return helper.Convert.ToGenericType<Type>(UserId().ToString());
+        }
+
+        public string UserName()
+        {
+            return _httpContextAccessor.HttpContext.User.Claims.First(x => x.Type == JWTClaimIdentifier.UserName).Value;
         }
     }
 }

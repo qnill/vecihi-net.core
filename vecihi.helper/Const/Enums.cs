@@ -23,29 +23,34 @@
         public enum SearchType : byte
         {
             /// <summary>
-            /// String propertylerde kullanılır. 
+            /// Eşitlik ataması için kullanılır.
             /// Default olarak tanımlıdır.
             /// Hiç bir arama tipi atanmazsa equal olarak aramaktadır.
             /// </summary>
             Equal = 0,
             /// <summary>
-            /// Sadece String alanlarda kullanılır.
+            /// Sadece metinsel alanlarda kullanılır. 
+            /// Tüm değerin içinde arar.
             /// </summary>
             Contains = 1,
             /// <summary>
-            /// Sadece Sayısal alanlarda kullanılır.
+            /// Sadece sayısal alanlarda kullanılır.
+            /// Değerin büyük olma şartını sağlar.
             /// </summary>
             GreaterThan = 2,
             /// <summary>
-            /// Sadece Sayısal alanlarda kullanılır.
+            /// Sayısal ve tarih alanlarında kullanılır.
+            /// Değerin büyük veya eşit olma şartını sağlar.
             /// </summary>
             GreaterThanOrEqual = 3,
             /// <summary>
-            /// Sadece Sayısal alanlarda kullanılır.
+            /// Sadece sayısal alanlarda kullanılır.
+            /// Değerin küçük olma şartını sağlar.
             /// </summary>
             LessThan = 4,
             /// <summary>
-            /// Sadece Sayısal alanlarda kullanılır.
+            /// Sayısal ve tarih alanlarında kullanılır.
+            /// Değerin küçük veya eşit olma şartını sağlar.
             /// </summary>
             LessThanOrEqual = 5
         }

@@ -285,7 +285,7 @@ namespace vecihi.infrastructure
             else
                 query = _mapper.ProjectTo<Autocomplete<Type>>(_uow.Repository<Entity>().Query()).AsQueryable();
 
-            var pkType = default(Type);
+            var pkType = default(Type?);
 
             if ((pkType is Guid && !(id as Guid?).IsNullOrEmpty()) || id != null)
                 query = query.Where(x => (object)x.Id == (object)id);

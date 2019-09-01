@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
+using System;
 
 namespace vecihi.infrastructure
 {
-    public class AutocompleteProfile<Type> : Profile
-        where Type : struct
+    public class AutocompleteProfile : Profile
     {
         public AutocompleteProfile()
         {
-            CreateMap<Autocomplete<Type>, AutocompleteDto<Type>>().ReverseMap();
+            CreateMap<Autocomplete<Guid>, AutocompleteDto<Guid>>().ReverseMap();
         }
     }
 }

@@ -15,14 +15,14 @@ namespace vecihi.api.Controllers
         private readonly UserManager<AuthUser> _userManager;
         private readonly IJWTService _jwtService;
 
-        public AuthController(UserManager<AuthUser> userManager,IJWTService jwtService)
+        public AuthController(UserManager<AuthUser> userManager, IJWTService jwtService)
         {
             _userManager = userManager;
             _jwtService = jwtService;
         }
 
         [AllowAnonymous]
-        [Route("Login"),HttpPost]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginDto model)
         {
             if (!ModelState.IsValid)
@@ -42,7 +42,7 @@ namespace vecihi.api.Controllers
             return Ok(jwt);
         }
 
-        [Route("Register"), HttpPost]
+        [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterDto model)
         {
             if (!ModelState.IsValid)

@@ -3,7 +3,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
-using vecihi.infrastructure;
 
 namespace vecihi.api.Installers
 {
@@ -14,11 +13,9 @@ namespace vecihi.api.Installers
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(x => x.GetTypes())
                 .Where(x => typeof(Profile).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
-                .ToList();
+                .ToArray();
 
-            types.Add(typeof(AutocompleteProfile<Guid>));
-
-            services.AddAutoMapper(types.ToArray());
+            services.AddAutoMapper(types);
         }
     }
 }

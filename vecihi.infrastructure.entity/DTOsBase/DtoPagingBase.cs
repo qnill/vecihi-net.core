@@ -2,17 +2,17 @@
 
 namespace vecihi.infrastructure.entity.dtos
 {
-    public abstract class DtoPagingBase<Type, BaseGetDto>
+    public abstract class DtoPagingBase<Type, ListDto>
         where Type : struct
-        where BaseGetDto : DtoGetBase<Type>
+        where ListDto : DtoGetBase<Type>
     {
         public int DataCount { get; set; }
         public double? Sum { get; set; }
-        public IList<BaseGetDto> Records { get; set; }
+        public IList<ListDto> Records { get; set; }
 
         public DtoPagingBase()
         {
-            Records = new List<BaseGetDto>();
+            Records = new List<ListDto>();
         }
     }
 }
