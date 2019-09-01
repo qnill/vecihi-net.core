@@ -3,6 +3,7 @@ using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
+using vecihi.infrastructure;
 
 namespace vecihi.api.Installers
 {
@@ -18,6 +19,9 @@ namespace vecihi.api.Installers
                 .Where(x => x.Name.EndsWith("Service"))
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
+
+            // UnitofWork
+            builder.RegisterType<UnitOfWork<Guid>>().AsSelf().InstancePerLifetimeScope();
 
             var container = builder.Build();
             return new AutofacServiceProvider(container);

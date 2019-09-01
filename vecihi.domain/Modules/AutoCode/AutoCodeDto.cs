@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using vecihi.helper.Attributes;
+using vecihi.infrastructure.entity.dtos;
 using static vecihi.helper.Const.Enums;
 
 namespace vecihi.domain.Modules
@@ -19,7 +21,7 @@ namespace vecihi.domain.Modules
         public string CodeFormat { get; set; }
     }
 
-    public class AutoCodeUpdateDto
+    public class AutoCodeUpdateDto: DtoUpdateBase<Guid>
     {
         /// <summary>
         /// Sample code format = "TC-{0}-RS"

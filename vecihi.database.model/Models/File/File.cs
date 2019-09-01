@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using vecihi.infrastructure.entity;
+using vecihi.infrastructure.entity.models;
 
 namespace vecihi.database.model
 {
@@ -12,7 +12,7 @@ namespace vecihi.database.model
     /// and the Id of the record to see the installed files of the relevant record.
     /// For downloading, Id of uploaded file should be sent.
     /// </summary>
-    public class File : EntityBaseAudit<Guid>
+    public class File : ModelBaseAudit<Guid>
     {
         /// <summary>
         /// The Id of the record that the uploaded file is linked to

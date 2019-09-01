@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using vecihi.infrastructure.entity;
+using vecihi.infrastructure.entity.models;
 
 namespace vecihi.database.model
 {
@@ -13,7 +13,7 @@ namespace vecihi.database.model
     /// the corresponding service is triggered and the automatic code is generated before
     /// the 'post' operation is performed on the code format defined screen.
     /// </summary>
-    public class AutoCode : EntityBaseAudit<Guid>
+    public class AutoCode : ModelBaseAudit<Guid>
     {
         /// <summary>
         /// Fixed screen codes

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using vecihi.infrastructure.entity;
+using vecihi.infrastructure.entity.models;
 
 namespace vecihi.database.model
 {
@@ -9,7 +9,7 @@ namespace vecihi.database.model
     /// If you customize this class, you need to customize the classes 
     /// in the 'UserDto' file so that the related services can work properly.
     /// </summary>
-    public class User : EntityBaseAudit<Guid>
+    public class User : ModelBaseAudit<Guid>
     {
         [Required, MaxLength(50)]
         public string Name { get; set; }

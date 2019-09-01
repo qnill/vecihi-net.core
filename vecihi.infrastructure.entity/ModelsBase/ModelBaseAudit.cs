@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace vecihi.infrastructure.entity
+namespace vecihi.infrastructure.entity.models
 {
-    public interface IEntityBaseAudit<Type> : IEntityBase<Type>
+    public interface IModelBaseAudit<Type> : IModelBase<Type>
         where Type : struct
     {
         DateTime CreatedAt { get; set; }
@@ -11,7 +11,7 @@ namespace vecihi.infrastructure.entity
         Type? UpdatedBy { get; set; }
     }
 
-    public abstract class EntityBaseAudit<Type> : EntityBase<Type>, IEntityBaseAudit<Type>
+    public abstract class ModelBaseAudit<Type> : ModelBase<Type>, IModelBaseAudit<Type>
         where Type : struct
     {
         public DateTime CreatedAt { get; set; }
