@@ -331,13 +331,7 @@ namespace vecihi.infrastructure
             /// <param name="sumField"></param>.
             double? sum = null;
             if (!string.IsNullOrWhiteSpace(sumField))
-            {
-                var param = Expression.Parameter(typeof(Entity), "sum");
-                var prop = Expression.Property(param, sumField);
-                var expSum = Expression.Lambda<Func<Entity, double?>>(Expression.Convert(prop, typeof(double?)), param);
-
-                sum = await query.SumAsync(expSum);
-            }
+                sum = await query.SumAsync(sumField);
 
             if (first != null && rows != null)
                 query = query

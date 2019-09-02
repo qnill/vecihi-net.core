@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace vecihi.infrastructure
 {
@@ -124,6 +125,15 @@ namespace vecihi.infrastructure
             var prop = Expression.Property(param, property);
 
             return query.OrderByDescending(Expression.Lambda<Func<Entity, object>>(prop, param));
+        }
+        public static async Task<double> SumAsync<Entity>(this IQueryable<Entity> query, string property)
+        {
+            var param = Expression.Parameter(query.ElementType, "sum");
+            var prop = Expression.Property(param, property);
+
+            var selector = Expression.Lambda<Func<Entity, double?>>(Expression.Convert(prop, typeof(double?)), param);
+
+            return await query.SumAsync(selector) ?? 0;
         }
     }
 }
