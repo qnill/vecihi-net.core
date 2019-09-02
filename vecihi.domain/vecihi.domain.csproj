@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Modules\AutoCodeLog\" />
     <Folder Include="Modules\File\" />
   </ItemGroup>
 

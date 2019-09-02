@@ -10,7 +10,7 @@ namespace vecihi.domain.Modules
     {
         /// <summary>
         /// Fixed screen codes
-        /// <see cref="Const.ScreenCodes"/>
+        /// <see cref="helper.Const.ScreenCodes"/>
         /// </summary>
         [Required, MaxLength(5)]
         public string ScreenCode { get; set; }
@@ -21,7 +21,7 @@ namespace vecihi.domain.Modules
         public string CodeFormat { get; set; }
     }
 
-    public class AutoCodeUpdateDto: DtoUpdateBase<Guid>
+    public class AutoCodeUpdateDto : DtoUpdateBase<Guid>
     {
         /// <summary>
         /// Sample code format = "TC-{0}-RS"
@@ -30,11 +30,21 @@ namespace vecihi.domain.Modules
         public string CodeFormat { get; set; }
     }
 
-    public class AutoCodeGetDto
+    public class AutoCodeListDto : DtoGetBase<Guid>
     {
         public string ScreenCode { get; set; }
         public string CodeFormat { get; set; }
         public int LastCodeNumber { get; set; }
+    }
+
+    public class AutoCodeCardDto : AutoCodeListDto
+    {
+
+    }
+
+    public class AutoCodePagingDto : DtoPagingBase<Guid, AutoCodeListDto>
+    {
+
     }
 
     public class AutoCodeFilterDto

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using System;
+﻿using System;
 using vecihi.domain.Modules;
 
 namespace vecihi.api.Controllers
