@@ -85,8 +85,6 @@ namespace vecihi.database.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<DateTime?>("LastLoginDate");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50);
@@ -108,7 +106,7 @@ namespace vecihi.database.Migrations
                         new
                         {
                             Id = new Guid("0c5337a5-ca82-4c97-94e9-00101a1d749d"),
-                            CreatedAt = new DateTime(2019, 9, 1, 16, 13, 24, 575, DateTimeKind.Local).AddTicks(9953),
+                            CreatedAt = new DateTime(2019, 9, 2, 15, 30, 10, 812, DateTimeKind.Local).AddTicks(8257),
                             CreatedBy = new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"),
                             IsDeleted = false,
                             Name = "qnill",

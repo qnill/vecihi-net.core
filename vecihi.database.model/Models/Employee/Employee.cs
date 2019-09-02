@@ -16,7 +16,6 @@ namespace vecihi.database.model
         public string Phone { get; set; }
         [MaxLength(50)]
         public string Email { get; set; }
-        public DateTime? LastLoginDate { get; set; }
         public Guid? UserId { get; set; }
     }
 }

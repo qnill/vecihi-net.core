@@ -33,7 +33,6 @@ namespace vecihi.domain.Modules
 
     public class EmployeeCardDto : EmployeeListDto
     {
-        public DateTime? LastLoginDate { get; set; }
     }
 
     public class EmployeePagingDto : DtoPagingBase<Guid, EmployeeListDto>
@@ -48,5 +47,10 @@ namespace vecihi.domain.Modules
         public string Phone { get; set; }
         [Filter(SearchType.Contains)]
         public string Email { get; set; }
+    }
+
+    public class InfoForJwtDto
+    {
+        public Guid Id { get; set; }
     }
 }

@@ -1,26 +1,29 @@
 ﻿using Microsoft.Extensions.Options;
+using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using vecihi.domain.Modules;
 
 namespace vecihi.auth
 {
     public interface IJWTService
     {
         ClaimsIdentity GenerateClaimsIdentity(string userId, string userName);
-        Task<object> GenerateJwt(ClaimsIdentity identity, string userName);
+        Task<object> GenerateJwt(string userId, string userName);
     }
 
     public class JWTService : IJWTService
     {
         private readonly JwtOptions _jwtOptions;
+        private readonly IEmployeeService _employeeService;
 
-        public JWTService(IOptions<JwtOptions> jwtOptions)
+        public JWTService(IOptions<JwtOptions> jwtOptions, IEmployeeService employeeService)
         {
             _jwtOptions = jwtOptions.Value;
             JWTHelper.ThrowIfInvalidOptions(_jwtOptions);
+            _employeeService = employeeService;
         }
 
         private async Task<string> GenerateEncodedToken(string userName, ClaimsIdentity identity)
@@ -58,15 +61,25 @@ namespace vecihi.auth
             return claims;
         }
 
-        public async Task<object> GenerateJwt(ClaimsIdentity identity, string userName)
+        public async Task<object> GenerateJwt(string userId, string userName)
         {
+            ClaimsIdentity identity = GenerateClaimsIdentity(userId, userName);
+
+            // Get Employee Info
+            var employeeInfo = await _employeeService.InfoForJwt(Guid.Parse(userId));
+
+            string employeeId = null;
+            if (employeeInfo != null)
+                employeeId = employeeInfo.Id.ToString();
+
             var response = new
             {
                 access_token = await GenerateEncodedToken(userName, identity),
                 expires_in = (int)_jwtOptions.ValidFor.TotalSeconds,
                 token_type = identity.AuthenticationType,
-                user_id = identity.Claims.Single(c => c.Type == JWTClaimIdentifier.UserId).Value,
-                user_name = identity.Claims.Single(c => c.Type == JWTClaimIdentifier.UserName).Value
+                user_id = userId,
+                user_name = userName,
+                employee_id = employeeId
             };
 
             return response;

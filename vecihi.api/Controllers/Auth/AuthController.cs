@@ -34,10 +34,7 @@ namespace vecihi.api.Controllers
             if (user == null || !(await _userManager.CheckPasswordAsync(user, model.Password)))
                 return BadRequest("CONST-MESSAGES-DONECEK");
 
-            // Set Claims
-            var claimsIdentity = _jwtService.GenerateClaimsIdentity(user.Id, user.UserName);
-
-            var jwt = await _jwtService.GenerateJwt(claimsIdentity, model.UserName);
+            var jwt = await _jwtService.GenerateJwt(user.Id, model.UserName);
 
             return Ok(jwt);
         }

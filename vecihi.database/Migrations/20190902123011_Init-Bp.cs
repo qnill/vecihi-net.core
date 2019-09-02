@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace vecihi.database.Migrations
 {
-    public partial class InitDb : Migration
+    public partial class InitBp : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,7 +39,6 @@ namespace vecihi.database.Migrations
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     Phone = table.Column<string>(maxLength: 20, nullable: true),
                     Email = table.Column<string>(maxLength: 50, nullable: true),
-                    LastLoginDate = table.Column<DateTime>(nullable: true),
                     UserId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -93,8 +92,8 @@ namespace vecihi.database.Migrations
 
             migrationBuilder.InsertData(
                 table: "Employee",
-                columns: new[] { "Id", "CreatedAt", "CreatedBy", "Email", "IsDeleted", "LastLoginDate", "Name", "Phone", "UpdatedAt", "UpdatedBy", "UserId" },
-                values: new object[] { new Guid("0c5337a5-ca82-4c97-94e9-00101a1d749d"), new DateTime(2019, 9, 1, 16, 13, 24, 575, DateTimeKind.Local).AddTicks(9953), new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"), null, false, null, "qnill", null, null, null, new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059") });
+                columns: new[] { "Id", "CreatedAt", "CreatedBy", "Email", "IsDeleted", "Name", "Phone", "UpdatedAt", "UpdatedBy", "UserId" },
+                values: new object[] { new Guid("0c5337a5-ca82-4c97-94e9-00101a1d749d"), new DateTime(2019, 9, 2, 15, 30, 10, 812, DateTimeKind.Local).AddTicks(8257), new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"), null, false, "qnill", null, null, null, new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AutoCodeLog_AutoCodeId",
