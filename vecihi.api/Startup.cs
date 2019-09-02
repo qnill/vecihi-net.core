@@ -42,6 +42,9 @@ namespace vecihi.api
             app.UseAuthentication();
 
             // ---
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+
+            // ---
             app.UseMvc();
         }
     }
