@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Threading.Tasks;
 using vecihi.helper.Const;
 using vecihi.infrastructure;
@@ -11,7 +11,8 @@ namespace vecihi.api.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [Produces("application/json")]
-    [ApiController]
+    [Consumes("application/json")]
+    [ApiController] 
     public abstract class ControllerBase<AddDto, UpdateDto, ListDto, CardDto, PagingDto, FilterDto, Service, Type>
         : ControllerBase
         where Type : struct
@@ -59,7 +60,7 @@ namespace vecihi.api.Controllers
         }
 
         [HttpDelete("Delete")]
-        public virtual async Task<IActionResult> Delete(Type id)
+        public virtual async Task<IActionResult> Delete([BindRequired]Type id)
         {
             var result = await _service.Delete(id, _identityClaimsValue.UserId<Type>());
 
@@ -70,7 +71,7 @@ namespace vecihi.api.Controllers
         }
 
         [HttpGet("GetById")]
-        public virtual async Task<IActionResult> GetById(Type id)
+        public virtual async Task<IActionResult> GetById([BindRequired]Type id)
         {
             var result = await _service.GetById(id);
 
@@ -88,9 +89,6 @@ namespace vecihi.api.Controllers
 
             var result = await _service.Autocomplete(parameters, id, text);
 
-            if (result == null)
-                result = new List<AutocompleteDto<Type>>();
-
             return Ok(result);
         }
 
@@ -101,9 +99,6 @@ namespace vecihi.api.Controllers
                 return BadRequest(ModelState);
 
             var result = await _service.Get(parameters, sortField, sortOrder);
-
-            if (result == null)
-                result = new List<ListDto>();
 
             return Ok(result);
         }
@@ -116,9 +111,6 @@ namespace vecihi.api.Controllers
                 return BadRequest(ModelState);
 
             var result = await _service.GetPaging(parameters, sortField, sortOrder, sumField, first, rows);
-
-            if (result == null)
-                result = new PagingDto();
 
             return Ok(result);
         }

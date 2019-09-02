@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using vecihi.helper;
 using vecihi.helper.Attributes;
@@ -168,6 +167,7 @@ namespace vecihi.infrastructure
                             .ToList())
                         .FirstOrDefault()
                 })
+                .Where(x => x.value != null)
                 .ToList();
 
             foreach (var prop in properties)
@@ -187,7 +187,8 @@ namespace vecihi.infrastructure
 
                 if (prop.type == TypeCode.String)
                 {
-                    if (prop.value != null && !string.IsNullOrWhiteSpace(prop.value.ToString()))
+                    if (!string.IsNullOrWhiteSpace(prop.value.ToString()))
+                    {
                         if (searchType == SearchType.Contains)
                             query = query.Contains(dbName, prop.value.ToString());
                         else if (searchType == SearchType.Equal)
@@ -196,79 +197,77 @@ namespace vecihi.infrastructure
                             throw new Exception(string.Format(
                                 format: "{0} is a string type property. You can not query a property of type {1} {2}.",
                                 arg0: dbName, arg1: prop.type, arg2: searchType));
+                    }
                 }
 
                 else if (prop.type == TypeCode.Int32 || prop.type == TypeCode.Double || prop.type == TypeCode.Int16 ||
                         prop.type == TypeCode.Decimal || prop.type == TypeCode.Byte || prop.type == TypeCode.Int64 ||
                         prop.type == TypeCode.UInt16 || prop.type == TypeCode.UInt32 || prop.type == TypeCode.UInt64)
                 {
-                    if (prop.value != null)
-                        switch (searchType)
-                        {
-                            case SearchType.Equal:
-                                query = query.Equal(dbName, prop.value);
-                                break;
-                            case SearchType.GreaterThan:
-                                query = query.GreaterThan(dbName, prop.value);
-                                break;
-                            case SearchType.GreaterThanOrEqual:
-                                query = query.GreaterThanOrEqual(dbName, prop.value);
-                                break;
-                            case SearchType.LessThan:
-                                query = query.LessThan(dbName, prop.value);
-                                break;
-                            case SearchType.LessThanOrEqual:
-                                query = query.LessThanOrEqual(dbName, prop.value);
-                                break;
-                            default:
-                                throw new Exception(string.Format(
-                                    format: "{0} is a numeric type property. You can not query a property of type {1} {2}.",
-                                    arg0: dbName, arg1: prop.type, arg2: searchType));
-                        }
+                    switch (searchType)
+                    {
+                        case SearchType.Equal:
+                            query = query.Equal(dbName, prop.value);
+                            break;
+                        case SearchType.GreaterThan:
+                            query = query.GreaterThan(dbName, prop.value);
+                            break;
+                        case SearchType.GreaterThanOrEqual:
+                            query = query.GreaterThanOrEqual(dbName, prop.value);
+                            break;
+                        case SearchType.LessThan:
+                            query = query.LessThan(dbName, prop.value);
+                            break;
+                        case SearchType.LessThanOrEqual:
+                            query = query.LessThanOrEqual(dbName, prop.value);
+                            break;
+                        default:
+                            throw new Exception(string.Format(
+                                format: "{0} is a numeric type property. You can not query a property of type {1} {2}.",
+                                arg0: dbName, arg1: prop.type, arg2: searchType));
+                    }
                 }
 
                 else if (prop.type == TypeCode.Boolean)
                 {
-                    if (prop.value != null)
-                        if (searchType == SearchType.Equal)
-                            query = query.Equal(dbName, prop.value);
-                        else
-                            throw new Exception(string.Format(
-                                format: "{0} is a boolean type property. You can not query a property of type {1} {2}.",
-                                arg0: dbName, arg1: prop.type, arg2: searchType));
+                    if (searchType == SearchType.Equal)
+                        query = query.Equal(dbName, prop.value);
+                    else
+                        throw new Exception(string.Format(
+                            format: "{0} is a boolean type property. You can not query a property of type {1} {2}.",
+                            arg0: dbName, arg1: prop.type, arg2: searchType));
                 }
 
                 else if (prop.type == TypeCode.Object)
                 {
-                    if (prop.value != null && !Guid.Parse(prop.value.ToString()).IsNullOrEmpty())
+                    if (!Guid.Parse(prop.value.ToString()).IsNullOrEmpty())
+                    {
                         if (searchType == SearchType.Equal)
                             query = query.Equal(dbName, prop.value);
                         else
                             throw new Exception(string.Format(
                                 format: "{0} is a object type property. You can not query a property of type {1} {2}.",
                                 arg0: dbName, arg1: prop.type, arg2: searchType));
+                    }
                 }
 
                 else if (prop.type == TypeCode.DateTime)
                 {
-                    if (prop.value != null)
+                    switch (searchType)
                     {
-                        switch (searchType)
-                        {
-                            case SearchType.Equal:
-                                query = query.DiffDaysEqual(dbName, prop.value);
-                                break;
-                            case SearchType.GreaterThanOrEqual:
-                                query = query.DiffDaysGreaterThan(dbName, prop.value);
-                                break;
-                            case SearchType.LessThanOrEqual:
-                                query = query.DiffDaysLessThan(dbName, prop.value);
-                                break;
-                            default:
-                                throw new Exception(string.Format(
-                                    format: "{0} is a datetime type property. You can not query a property of type {1} {2}.",
-                                    arg0: dbName, arg1: prop.type, arg2: searchType));
-                        }
+                        case SearchType.Equal:
+                            query = query.DiffDaysEqual(dbName, prop.value);
+                            break;
+                        case SearchType.GreaterThanOrEqual:
+                            query = query.DiffDaysGreaterThan(dbName, prop.value);
+                            break;
+                        case SearchType.LessThanOrEqual:
+                            query = query.DiffDaysLessThan(dbName, prop.value);
+                            break;
+                        default:
+                            throw new Exception(string.Format(
+                                format: "{0} is a datetime type property. You can not query a property of type {1} {2}.",
+                                arg0: dbName, arg1: prop.type, arg2: searchType));
                     }
                 }
             }
@@ -278,14 +277,9 @@ namespace vecihi.infrastructure
 
         public virtual async Task<IList<AutocompleteDto<Type>>> Autocomplete(FilterDto parameters, Type? id = null, string text = null)
         {
-            IQueryable<Autocomplete<Type>> query = null;
+            var query = _mapper.ProjectTo<Autocomplete<Type>>(PrepareGetQuery(parameters)).AsQueryable();
 
-            if (parameters != null)
-                query = _mapper.ProjectTo<Autocomplete<Type>>(PrepareGetQuery(parameters)).AsQueryable();
-            else
-                query = _mapper.ProjectTo<Autocomplete<Type>>(_uow.Repository<Entity>().Query()).AsQueryable();
-
-            var pkType = default(Type?);
+            var pkType = default(Type);
 
             if ((pkType is Guid && !(id as Guid?).IsNullOrEmpty()) || id != null)
                 query = query.Where(x => (object)x.Id == (object)id);
