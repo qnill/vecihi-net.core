@@ -30,21 +30,22 @@ namespace vecihi.api
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
 
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            // Swagger
             app.UseSwagger();
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "vecihi.net-core");
                 c.RoutePrefix = string.Empty;
             });
 
-            // ---
+            // Authentication
             app.UseAuthentication();
 
-            // ---
+            // Cors
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
 
-            // ---
+            // Mvc
             app.UseMvc();
         }
     }

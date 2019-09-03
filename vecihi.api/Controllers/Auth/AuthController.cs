@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
 using vecihi.auth;
+using vecihi.helper.Const;
 
 namespace vecihi.api.Controllers
 {
@@ -12,13 +11,11 @@ namespace vecihi.api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<AuthUser> _userManager;
-        private readonly IJWTService _jwtService;
+        private readonly IAuthService _authService;
 
-        public AuthController(UserManager<AuthUser> userManager, IJWTService jwtService)
+        public AuthController(IAuthService authService)
         {
-            _userManager = userManager;
-            _jwtService = jwtService;
+            _authService = authService;
         }
 
         [AllowAnonymous]
@@ -28,15 +25,12 @@ namespace vecihi.api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var user = await _userManager.FindByNameAsync(model.UserName);
+            var result = await _authService.Login(model);
 
-            // ToDo: Const'dan mesaj döndür
-            if (user == null || !(await _userManager.CheckPasswordAsync(user, model.Password)))
-                return BadRequest("CONST-MESSAGES-DONECEK");
+            if (result.Message != ApiResultMessages.Ok)
+                return BadRequest(result);
 
-            var jwt = await _jwtService.GenerateJwt(user.Id, model.UserName);
-
-            return Ok(jwt);
+            return Ok(result.Data);
         }
 
         [HttpPost("Register")]
@@ -45,24 +39,12 @@ namespace vecihi.api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // ToDo: Mapping'e bağla
-            // Service-Yaz
-            var authUser = new AuthUser
-            {
-                Id = Guid.NewGuid().ToString(),
-                UserName = model.UserName,
-                Email = model.Email,
-                PhoneNumber = model.Phone
-            };
+            var result = await _authService.Register(model);
 
-            var result = await _userManager.CreateAsync(authUser, model.Password);
-            
-            // ToDo: Const'dan mesaj döndür - APIResult'a bağla
-            if (!result.Succeeded)
-                return BadRequest(result.Errors);
+            if (result.Message != ApiResultMessages.Ok)
+                return BadRequest(result);
 
-            // ToDo: APIResult'a bağla
-            return Ok();
+            return Ok(result);
         }
     }
 }

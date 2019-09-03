@@ -16,8 +16,4 @@
     <ProjectReference Include="..\vecihi.infrastructure\vecihi.infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Modules\File\" />
-  </ItemGroup>
-
 </Project>

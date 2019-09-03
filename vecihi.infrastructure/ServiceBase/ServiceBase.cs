@@ -104,7 +104,7 @@ namespace vecihi.infrastructure
 
             // Access Control
             if (entity is IModelBaseAudit<Type> && checkAuthorize && !(entity as IModelBaseAudit<Type>).CreatedBy.Equals(userId))
-                return new ApiResult() { Data = model.Id, Message = ApiResultMessages.GNW0001 };
+                return new ApiResult { Data = model.Id, Message = ApiResultMessages.GNW0001 };
 
             if (isCommit)
                 await _uow.SaveChangesAsync();
@@ -123,7 +123,7 @@ namespace vecihi.infrastructure
             {
                 // Access Control
                 if (checkAuthorize && userId != null && !(entity as IModelBaseAudit<Type>).CreatedBy.Equals(userId.Value))
-                    return new ApiResult() { Message = ApiResultMessages.GNW0001 };
+                    return new ApiResult { Message = ApiResultMessages.GNW0001 };
 
                 (entity as IModelBaseAudit<Type>).UpdatedAt = DateTime.Now;
                 (entity as IModelBaseAudit<Type>).UpdatedBy = userId.Value;
@@ -134,7 +134,7 @@ namespace vecihi.infrastructure
             if (isCommit)
                 await _uow.SaveChangesAsync();
 
-            return new ApiResult() { Data = id, Message = ApiResultMessages.Ok };
+            return new ApiResult { Data = id, Message = ApiResultMessages.Ok };
         }
 
         public virtual async Task<CardDto> GetById(Type id, Type? userId = null, bool isDeleted = false)

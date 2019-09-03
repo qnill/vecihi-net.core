@@ -100,21 +100,21 @@
 
         #endregion AutoCode
 
-        // Module:FU
-        #region FileUpload
+        // Module:FL
+        #region File
 
         #region Error
         /// <summary>
         /// File is not found
         /// - Status Code: NotFound
         /// </summary>
-        public const string FUE0001 = "FUE0001";
+        public const string FLE0001 = "FLE0001";
 
         /// <summary>
         /// The screenCode and refId field cannot be blank
         /// - Status Code: BadRequest
         /// </summary>
-        public const string FUE0002 = "FUE0002";
+        public const string FLE0002 = "FLE0002";
 
         #endregion Error
 
@@ -123,9 +123,23 @@
         /// Unsupported file type
         /// - Status Code: UnsupportedMediaType
         /// </summary>
-        public const string FUW0001 = "FUW0001";
+        public const string FLW0001 = "FLW0001";
 
         #endregion Warning
+
+        #endregion
+
+        // Module:AU
+        #region Auth
+
+        #region Error
+        /// <summary>
+        /// The username or password is incorrect.
+        /// - Status Code: BadRequest
+        /// </summary>
+        public const string AUE0001 = "AUE0001";
+
+        #endregion Error
 
         #endregion
     }
