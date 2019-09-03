@@ -28,8 +28,8 @@ namespace vecihi.database.model
         public string CodeFormat { get; set; }
         public int LastCodeNumber { get; set; }
 
-        //FK
-        //AutoCodeLog
+        // FK
+        // AutoCodeLog
         public virtual ICollection<AutoCodeLog> AutoCodeLogs { get; set; }
 
         public AutoCode()

@@ -1,9 +1,9 @@
 ﻿namespace vecihi.helper.Const
 {
     /// <summary>
-    /// ToDo : Translate
-    /// Enum değerleri asal sayılardan oluşturulmuştur.
-    /// Multi seçim sırasında toplam değer, asal bölenlerine ayırılıp seçimler elde edilebilir.
+    /// Enum values are composed of prime numbers.
+    /// During multi-selection, the total value can be divided 
+    /// into prime divisors and the selections can be obtained.
     /// </summary>
     public class Enums
     {
@@ -23,34 +23,33 @@
         public enum SearchType : byte
         {
             /// <summary>
-            /// Eşitlik ataması için kullanılır.
-            /// Default olarak tanımlıdır.
-            /// Hiç bir arama tipi atanmazsa equal olarak aramaktadır.
+            /// Used for equality assignment.
+            /// If no search type is assigned, it assigns default value as equal
             /// </summary>
             Equal = 0,
             /// <summary>
-            /// Sadece metinsel alanlarda kullanılır. 
-            /// Tüm değerin içinde arar.
+            /// Only used in textual fields.
+            /// Searches within all value.
             /// </summary>
             Contains = 1,
             /// <summary>
-            /// Sadece sayısal alanlarda kullanılır.
-            /// Değerin büyük olma şartını sağlar.
+            /// Only used in numeric fields.
+            /// Ensures that the value is greater.
             /// </summary>
             GreaterThan = 2,
             /// <summary>
-            /// Sayısal ve tarih alanlarında kullanılır.
-            /// Değerin büyük veya eşit olma şartını sağlar.
+            /// Used in numeric and date fields.
+            /// Ensures that the value is greater than or equal to.
             /// </summary>
             GreaterThanOrEqual = 3,
             /// <summary>
-            /// Sadece sayısal alanlarda kullanılır.
-            /// Değerin küçük olma şartını sağlar.
+            /// Only used in numeric fields.
+            /// Ensures that the value is less.
             /// </summary>
             LessThan = 4,
             /// <summary>
-            /// Sayısal ve tarih alanlarında kullanılır.
-            /// Değerin küçük veya eşit olma şartını sağlar.
+            /// Used in numeric and date fields.
+            /// Ensures that the value is less than or equal to.
             /// </summary>
             LessThanOrEqual = 5
         }

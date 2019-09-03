@@ -1,21 +1,20 @@
 ﻿namespace vecihi.helper.Const
 {
     /// <summary>
-    /// ToDo : Translate
-    /// Sistem mesajları 7 karakter olarak tasarlanmıştır:
-    /// Ilk 2 karakter Modül Kodu
-    /// 3. Karakter Mesaj Kodu (E:Error, S:Success, I:Information, W:Warning)
-    /// Son 4 karakter hata kodu
+    /// System messages are designed as 7 characters:
+    /// First 2 characters Module Code
+    /// Third Character Message Code (E: Error, S: Success, I: Information, W: Warning)
+    /// Last 4 characters error code
     /// </summary>
     public static class ApiResultMessages
     {
-        ///Modul kodu : 'GN'
+        // Module:GN
         #region General
 
         #region Success
 
         /// <summary>
-        /// İşlem başarılı
+        /// Successful
         /// - Status Code: Ok
         /// </summary>
         public const string Ok = "Ok";
@@ -25,25 +24,25 @@
         #region Error
 
         /// <summary>
-        /// Kayıt bulunamadı 
+        /// No Records Found
         /// - Status Code: NotFound
         /// </summary>
         public const string GNE0001 = "GNE0001";
 
         /// <summary>
-        ///  Kullanıcıya mail gönderilemedi
+        /// Failed send mail to user
         /// - Status Code: InternalServerError
         /// </summary>
         public const string GNE0002 = "GNE0002";
 
         /// <summary>
-        ///  Bu email ile daha önce bir kayıt oluşturulmuş.
+        /// A registration has already been created with this email
         /// - Status Code: BadRequest
         /// </summary>
         public const string GNE0003 = "GNE0003";
 
         /// <summary>
-        ///  Kayıt sırasında hata oluştu.
+        /// An error occurred while recording
         /// - Status Code: BadRequest
         /// </summary>
         public const string GNE0004 = "GNE0004";
@@ -53,19 +52,19 @@
         #region Warning
 
         /// <summary>
-        /// Bu işlemi yapmak için yetki sahibi değilsiniz 
+        /// You are not authorized to perform this operation
         /// - Status Code: Unauthorized
         /// </summary>
         public const string GNW0001 = "GNW0001";
 
         /// <summary>
-        /// İlgili ekran kodu bulunamadı.
+        /// The corresponding screen code is not found
         /// - Status Code: NotFound
         /// </summary>
         public const string GNW0002 = "GNW0002";
 
         /// <summary>
-        /// Sıralanmak istenilen alan bulunamadı.
+        /// No fields were found to be sorted.
         /// - Status Code: NotFound
         /// </summary>
         public const string GNW0003 = "GNW0003";
@@ -74,12 +73,12 @@
 
         #endregion General
 
-        ///Modul kodu : 'EM'
+        // Module:EM
         #region Email
 
         #region Warning
         /// <summary>
-        /// Mail gönderilmek üzere en az bir mail adresi seçilmek zorundadır.
+        /// At least one e-mail address must be selected in order to send e-mail
         /// - Status Code: Unauthorized
         /// </summary>
         public const string EMW0001 = "EMW0001";
@@ -87,13 +86,13 @@
 
         #endregion Email
 
-        ///Modul kodu : 'AC'
+        // Module:AC
         #region AutoCode
 
         #region Warning
 
         /// <summary>
-        /// Kod formatının içine, otomatik artan kod numarasının eklenebilmesi için {0} yazılmalıdır.
+        /// In the code format, {0} must be written so that the automatic incremental code number can be added
         /// - Status Code: NotAcceptable
         /// </summary>
         public const string ACW0001 = "ACW0001";
@@ -101,18 +100,18 @@
 
         #endregion AutoCode
 
-        ///Modul kodu : 'FU'
+        // Module:FU
         #region FileUpload
 
         #region Error
         /// <summary>
-        /// Dosya bulunamadı.
+        /// File is not found
         /// - Status Code: NotFound
         /// </summary>
         public const string FUE0001 = "FUE0001";
 
         /// <summary>
-        /// screenCode ve refId alanı boş geçilemez.
+        /// The screenCode and refId field cannot be blank
         /// - Status Code: BadRequest
         /// </summary>
         public const string FUE0002 = "FUE0002";
@@ -121,7 +120,7 @@
 
         #region Warning
         /// <summary>
-        ///  Desteklenmeyen dosya türü.
+        /// Unsupported file type
         /// - Status Code: UnsupportedMediaType
         /// </summary>
         public const string FUW0001 = "FUW0001";

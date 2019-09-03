@@ -26,7 +26,8 @@ namespace vecihi.database
         }
 
         /// <summary> 
-        /// ToDo: Translate - DataSet objeleri test tarafında ezilip in-memory olarak kullanılacağı için virtual olarak tanımlanmıştır.
+        /// DataSet objects are defined as virtual since they 
+        /// will be crushed on the unit-test side and used as in-memory.
         /// </summary>
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<AutoCode> AutoCode { get; set; }

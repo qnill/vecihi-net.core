@@ -12,8 +12,8 @@ namespace vecihi.database.model
         public DateTime CodeGenerationDate { get; set; }
         public Guid GeneratedBy { get; set; }
 
-        //FK
-        //AutoCodeGenerator
+        // FK
+        // AutoCodeGenerator
         public Guid AutoCodeId { get; set; }
         public virtual AutoCode AutoCode { get; set; }
     }
