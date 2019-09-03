@@ -8,6 +8,8 @@ namespace vecihi.api.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
+    [Produces("application/json")]
+    [Consumes("application/json")]
     [ApiController]
     public class AuthController : ControllerBase
     {

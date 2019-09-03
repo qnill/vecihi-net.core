@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Threading.Tasks;
+using vecihi.helper;
 using vecihi.helper.Const;
 using vecihi.infrastructure;
 using vecihi.infrastructure.entity.dtos;
@@ -32,6 +33,7 @@ namespace vecihi.api.Controllers
         }
 
         [HttpPost("Add")]
+        [ProducesResponseType(typeof(ApiResult), 200)]
         public virtual async Task<IActionResult> Add(AddDto model)
         {
             if (!ModelState.IsValid)
@@ -46,6 +48,7 @@ namespace vecihi.api.Controllers
         }
 
         [HttpPut("Update")]
+        [ProducesResponseType(typeof(ApiResult), 200)]
         public virtual async Task<IActionResult> Update(UpdateDto model)
         {
             if (!ModelState.IsValid)
@@ -60,6 +63,7 @@ namespace vecihi.api.Controllers
         }
 
         [HttpDelete("Delete")]
+        [ProducesResponseType(typeof(ApiResult), 200)]
         public virtual async Task<IActionResult> Delete([BindRequired]Type id)
         {
             var result = await _service.Delete(id, _identityClaimsValue.UserId<Type>());
