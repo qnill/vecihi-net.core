@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using vecihi.auth;
 using vecihi.helper.Const;
 
 namespace vecihi.api.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [Produces("application/json")]
     [Consumes("application/json")]
@@ -20,7 +18,6 @@ namespace vecihi.api.Controllers
             _authService = authService;
         }
 
-        [AllowAnonymous]
         [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginDto model)
         {

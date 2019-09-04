@@ -10,7 +10,7 @@ namespace vecihi.api.Installers
 {
     public class AuthInstaller : IInstaller
     {
-        private const string SecretKey = "115116097121032104117110103114121044115116097121032102111111108105115104";
+        private const string SecretKey = "fd45f6f59f074b85b3eb5ff5614aed4b";
         private readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
 
         public void InstallServices(IServiceCollection services, IConfiguration Configuration)

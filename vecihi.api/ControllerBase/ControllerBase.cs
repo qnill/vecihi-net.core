@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Threading.Tasks;
@@ -9,11 +10,11 @@ using vecihi.infrastructure.entity.dtos;
 
 namespace vecihi.api.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [Produces("application/json")]
     [Consumes("application/json")]
-    [ApiController] 
+    [ApiController]
     public abstract class ControllerBase<AddDto, UpdateDto, ListDto, CardDto, PagingDto, FilterDto, Service, Type>
         : ControllerBase
         where Type : struct

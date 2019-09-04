@@ -15,7 +15,7 @@ namespace vecihi.domain.Modules
         [Required, MaxLength(5)]
         public string ScreenCode { get; set; }
         /// <summary>
-        /// Sample code format = "TC-{0}-RS"
+        /// Sample code format = "TC-{0}-VC"
         /// </summary>
         [Required, MaxLength(13)]
         public string CodeFormat { get; set; }
@@ -24,7 +24,7 @@ namespace vecihi.domain.Modules
     public class AutoCodeUpdateDto : DtoUpdateBase<Guid>
     {
         /// <summary>
-        /// Sample code format = "TC-{0}-RS"
+        /// Sample code format = "TC-{0}-VC"
         /// </summary>
         [Required, MaxLength(13)]
         public string CodeFormat { get; set; }
