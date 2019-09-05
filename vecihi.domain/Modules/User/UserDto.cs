@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace vecihi.auth
+namespace vecihi.domain.Modules
 {
     public class LoginDto
     {
@@ -14,9 +14,9 @@ namespace vecihi.auth
     {
         [Required]
         public string UserName { get; set; }
-        [Required,DataType(DataType.Password)]
+        [Required, DataType(DataType.Password)]
         public string Password { get; set; }
-        [Required, DataType(DataType.Password),Compare("Password")]
+        [Required, DataType(DataType.Password), Compare("Password")]
         public string ConfirmPassword { get; set; }
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }

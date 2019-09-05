@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Threading.Tasks;
+using vecihi.auth;
 using vecihi.helper;
 using vecihi.helper.Const;
 using vecihi.infrastructure;
@@ -35,7 +36,7 @@ namespace vecihi.api.Controllers
 
         [HttpPost("Add")]
         [ProducesResponseType(typeof(ApiResult), 200)]
-        public virtual async Task<IActionResult> Add(AddDto model)
+        public virtual async Task<IActionResult> Add([FromBody]AddDto model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -50,7 +51,7 @@ namespace vecihi.api.Controllers
 
         [HttpPut("Update")]
         [ProducesResponseType(typeof(ApiResult), 200)]
-        public virtual async Task<IActionResult> Update(UpdateDto model)
+        public virtual async Task<IActionResult> Update([FromBody]UpdateDto model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -110,12 +111,12 @@ namespace vecihi.api.Controllers
 
         [HttpGet("GetPaging")]
         public async Task<IActionResult> GetPaging([FromQuery]FilterDto parameters, string sortField = null, bool sortOrder = true,
-            string sumField = null, int? first = null, int? rows = null)
+            string sumField = null, int? pageSize = null, int? pageNumber = null)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await _service.GetPaging(parameters, sortField, sortOrder, sumField, first, rows);
+            var result = await _service.GetPaging(parameters, sortField, sortOrder, sumField, pageSize, pageNumber);
 
             return Ok(result);
         }

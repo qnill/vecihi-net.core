@@ -2,7 +2,7 @@
 
 namespace vecihi.auth
 {
-    public static class JWTHelper
+    public static class JwtHelper
     {
         public static long ToUnixEpochDate(DateTime date)
         {

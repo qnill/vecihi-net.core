@@ -12,23 +12,21 @@ namespace vecihi.domain.Modules
         public string Name { get; set; }
         [MaxLength(20), DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
-        [MaxLength(50), DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
+        public string Title { get; set; }
     }
 
     public class EmployeeUpdateDto : DtoUpdateBase<Guid>
     {
         [Required, MaxLength(50)]
         public string Name { get; set; }
-        [MaxLength(50), DataType(DataType.PhoneNumber)]
-        public string Phone { get; set; }
+        public string Title { get; set; }
     }
 
     public class EmployeeListDto : DtoGetBase<Guid>
     {
         public string Name { get; set; }
         public string Phone { get; set; }
-        public string Email { get; set; }
+        public string Title { get; set; }
     }
 
     public class EmployeeCardDto : EmployeeListDto
@@ -46,7 +44,7 @@ namespace vecihi.domain.Modules
         [Filter(SearchType.Contains)]
         public string Phone { get; set; }
         [Filter(SearchType.Contains)]
-        public string Email { get; set; }
+        public string Title { get; set; }
     }
 
     public class InfoForJwtDto

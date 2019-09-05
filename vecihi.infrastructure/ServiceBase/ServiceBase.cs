@@ -306,7 +306,7 @@ namespace vecihi.infrastructure
         }
 
         public virtual async Task<PagingDto> GetPaging(FilterDto parameters, string sortField = null, bool sortOrder = true,
-            string sumField = null, int? first = null, int? rows = null)
+            string sumField = null, int? pageSize = null, int? pageNumber = null)
         {
             var query = PrepareGetQuery(parameters);
 
@@ -327,10 +327,14 @@ namespace vecihi.infrastructure
             if (!string.IsNullOrWhiteSpace(sumField))
                 sum = await query.SumAsync(sumField);
 
-            if (first != null && rows != null)
+            if (pageSize != null && pageNumber != null)
+            {
+                var skip = (pageNumber - 1) * pageSize;
+
                 query = query
-                    .Skip(first.Value)
-                    .Take(rows.Value);
+                    .Skip(skip.Value)
+                    .Take(pageSize.Value);
+            }
 
             var records = await _mapper.ProjectTo<ListDto>(query).ToListAsync();
 

@@ -14,8 +14,11 @@ namespace vecihi.database.model
         public string Name { get; set; }
         [MaxLength(20)]
         public string Phone { get; set; }
-        [MaxLength(50)]
-        public string Email { get; set; }
+        public string Title { get; set; }
+
+        // FK
+        // User
         public Guid? UserId { get; set; }
+        public virtual User User { get; set; }
     }
 }

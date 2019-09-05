@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
+using vecihi.auth;
 using vecihi.infrastructure;
 
 namespace vecihi.api.Installers

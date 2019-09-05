@@ -16,7 +16,7 @@ namespace vecihi.domain.Modules
             CreateMap<Employee, Autocomplete<Guid>>()
                 .ForMember(
                     dest => dest.Search,
-                    opt => opt.MapFrom(src => (src.Email ?? "") + (src.Name ?? "") + (src.Phone ?? "")))
+                    opt => opt.MapFrom(src => (src.Name ?? "") + (src.Phone ?? "") + (src.Title ?? "")))
                 .ForMember(
                     dest => dest.Text,
                     opt => opt.MapFrom(src => src.Name));

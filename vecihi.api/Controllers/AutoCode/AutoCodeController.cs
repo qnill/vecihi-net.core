@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Threading.Tasks;
+using vecihi.auth;
 using vecihi.domain.Modules;
 
 namespace vecihi.api.Controllers

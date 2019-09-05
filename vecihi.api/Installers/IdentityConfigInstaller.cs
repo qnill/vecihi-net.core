@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using vecihi.auth;
+using vecihi.database;
 
 namespace vecihi.api.Installers
 {
@@ -9,17 +11,10 @@ namespace vecihi.api.Installers
     {
         public void InstallServices(IServiceCollection services, IConfiguration Configuration)
         {
-            var identityBuilder = services.AddIdentityCore<AuthUser>(o =>
-            {
-                o.Password.RequireDigit = true;
-                o.Password.RequireLowercase = true;
-                o.Password.RequireUppercase = true;
-                o.Password.RequireNonAlphanumeric = true;
-                o.Password.RequiredLength = 8;
-            });
+            var identityBuilder = IdentityConfig.Builder(services);
 
-            identityBuilder = new IdentityBuilder(identityBuilder.UserType, typeof(IdentityRole), identityBuilder.Services);
-            identityBuilder.AddEntityFrameworkStores<AuthDbContext>().AddDefaultTokenProviders();
+            identityBuilder = new IdentityBuilder(identityBuilder.UserType, typeof(IdentityRole<Guid>), identityBuilder.Services);
+            identityBuilder.AddEntityFrameworkStores<VecihiDbContext>().AddDefaultTokenProviders();
         }
     }
 }

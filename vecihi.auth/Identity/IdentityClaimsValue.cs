@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Linq;
-using vecihi.auth;
 
-namespace vecihi.api
+namespace vecihi.auth
 {
     public class IdentityClaimsValue
     {
@@ -16,7 +15,7 @@ namespace vecihi.api
 
         public Guid UserId()
         {
-            return Guid.Parse(_httpContextAccessor.HttpContext.User.Claims.First(x => x.Type == JWTClaimIdentifier.UserId).Value);
+            return Guid.Parse(_httpContextAccessor.HttpContext.User.Claims.First(x => x.Type == JwtClaimIdentifier.UserId).Value);
         }
 
         public Type UserId<Type>()
@@ -26,7 +25,7 @@ namespace vecihi.api
 
         public string UserName()
         {
-            return _httpContextAccessor.HttpContext.User.Claims.First(x => x.Type == JWTClaimIdentifier.UserName).Value;
+            return _httpContextAccessor.HttpContext.User.Claims.First(x => x.Type == JwtClaimIdentifier.UserName).Value;
         }
     }
 }

@@ -1,10 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using vecihi.database.model;
 
 namespace vecihi.database
 {
-    public class VecihiDbContext : DbContext
+    public class VecihiDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         public VecihiDbContext(DbContextOptions<VecihiDbContext> options)
           : base(options)

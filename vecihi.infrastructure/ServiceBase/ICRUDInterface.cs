@@ -18,6 +18,6 @@ namespace vecihi.infrastructure
         Task<CardDto> GetById(Type id, Type? userId = null, bool isDeleted = false);
         Task<IList<AutocompleteDto<Type>>> Autocomplete(FilterDto parameters, Type? id = null, string text = null);
         Task<IList<ListDto>> Get(FilterDto parameters, string sortField = null, bool sortOrder = true);
-        Task<PagingDto> GetPaging(FilterDto parameters, string sortField = null, bool sortOrder = true, string sumField = null, int? first = null, int? rows = null);
+        Task<PagingDto> GetPaging(FilterDto parameters, string sortField = null, bool sortOrder = true, string sumField = null, int? pageSize = null, int? pageNumber = null);
     }
 }

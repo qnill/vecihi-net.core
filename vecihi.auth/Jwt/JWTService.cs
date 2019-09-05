@@ -8,21 +8,20 @@ using vecihi.domain.Modules;
 
 namespace vecihi.auth
 {
-    public interface IJWTService
+    public interface IJwtService
     {
-        ClaimsIdentity GenerateClaimsIdentity(string userId, string userName);
         Task<object> GenerateJwt(string userId, string userName);
     }
 
-    public class JWTService : IJWTService
+    public class JwtService : IJwtService
     {
         private readonly JwtOptions _jwtOptions;
         private readonly IEmployeeService _employeeService;
 
-        public JWTService(IOptions<JwtOptions> jwtOptions, IEmployeeService employeeService)
+        public JwtService(IOptions<JwtOptions> jwtOptions, IEmployeeService employeeService)
         {
             _jwtOptions = jwtOptions.Value;
-            JWTHelper.ThrowIfInvalidOptions(_jwtOptions);
+            JwtHelper.ThrowIfInvalidOptions(_jwtOptions);
             _employeeService = employeeService;
         }
 
@@ -32,9 +31,9 @@ namespace vecihi.auth
             {
                  new Claim(JwtRegisteredClaimNames.Sub, userName),
                  new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
-                 new Claim(JwtRegisteredClaimNames.Iat, JWTHelper.ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
-                 identity.FindFirst(JWTClaimIdentifier.UserId),
-                 identity.FindFirst(JWTClaimIdentifier.UserName)
+                 new Claim(JwtRegisteredClaimNames.Iat, JwtHelper.ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
+                 identity.FindFirst(JwtClaimIdentifier.UserId),
+                 identity.FindFirst(JwtClaimIdentifier.UserName)
              };
 
             var jwt = new JwtSecurityToken(
@@ -50,12 +49,12 @@ namespace vecihi.auth
             return encodedJwt;
         }
 
-        public ClaimsIdentity GenerateClaimsIdentity(string userId, string userName)
+        private ClaimsIdentity GenerateClaimsIdentity(string userId, string userName)
         {
             var claims = new ClaimsIdentity(new GenericIdentity(userName, "bearer"), new[]
             {
-                new Claim(JWTClaimIdentifier.UserId, userId),
-                new Claim(JWTClaimIdentifier.UserName, userName)
+                new Claim(JwtClaimIdentifier.UserId, userId),
+                new Claim(JwtClaimIdentifier.UserName, userName)
             });
 
             return claims;

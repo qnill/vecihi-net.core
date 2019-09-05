@@ -1,4 +1,5 @@
 ﻿using System;
+using vecihi.auth;
 using vecihi.domain.Modules;
 
 namespace vecihi.api.Controllers

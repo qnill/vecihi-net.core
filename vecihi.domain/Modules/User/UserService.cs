@@ -1,26 +1,28 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading.Tasks;
+using vecihi.database.model;
 using vecihi.helper;
 using vecihi.helper.Const;
 
-namespace vecihi.auth
+namespace vecihi.domain.Modules
 {
-    public interface IAuthService
+    public interface IUserService
     {
         Task<ApiResult> Login(LoginDto model);
         Task<ApiResult> Register(RegisterDto model);
     }
 
-    public class AuthService: IAuthService
+    public class UserService : IUserService
     {
-        private readonly UserManager<AuthUser> _userManager;
-        private readonly IJWTService _jwtService;
+        private readonly UserManager<User> _userManager;
+        private readonly IMapper _mapper;
 
-        public AuthService(UserManager<AuthUser> userManager, IJWTService jwtService)
+        public UserService(UserManager<User> userManager, IMapper mapper)
         {
             _userManager = userManager;
-            _jwtService = jwtService;
+            _mapper = mapper;
         }
 
         public async Task<ApiResult> Login(LoginDto model)
@@ -30,20 +32,14 @@ namespace vecihi.auth
             if (user == null || !(await _userManager.CheckPasswordAsync(user, model.Password)))
                 return new ApiResult { Data = model.UserName, Message = ApiResultMessages.AUE0001 };
 
-            var jwt = await _jwtService.GenerateJwt(user.Id, model.UserName);
-
-            return new ApiResult { Data = jwt, Message = ApiResultMessages.Ok };
+            return new ApiResult { Data = user.Id, Message = ApiResultMessages.Ok };
         }
 
         public async Task<ApiResult> Register(RegisterDto model)
         {
-            var authUser = new AuthUser
-            {
-                Id = Guid.NewGuid().ToString(),
-                UserName = model.UserName,
-                Email = model.Email,
-                PhoneNumber = model.Phone
-            };
+            var authUser = _mapper.Map<User>(model);
+
+            authUser.Id = Guid.NewGuid();
 
             var result = await _userManager.CreateAsync(authUser, model.Password);
 

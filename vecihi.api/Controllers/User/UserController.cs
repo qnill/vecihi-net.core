@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using vecihi.auth;
+using vecihi.domain.Modules;
 using vecihi.helper.Const;
 
 namespace vecihi.api.Controllers
@@ -9,36 +10,40 @@ namespace vecihi.api.Controllers
     [Produces("application/json")]
     [Consumes("application/json")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class UserController : ControllerBase
     {
-        private readonly IAuthService _authService;
+        private readonly IUserService _userService;
+        private readonly IJwtService _jwtService;
 
-        public AuthController(IAuthService authService)
+        public UserController(IUserService userService, IJwtService jwtService)
         {
-            _authService = authService;
+            _userService = userService;
+            _jwtService = jwtService;
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(LoginDto model)
+        public async Task<IActionResult> Login([FromBody]LoginDto model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await _authService.Login(model);
+            var result = await _userService.Login(model);
 
             if (result.Message != ApiResultMessages.Ok)
                 return BadRequest(result);
 
-            return Ok(result.Data);
+            var jwt = await _jwtService.GenerateJwt(result.Data.ToString(), model.UserName);
+
+            return Ok(jwt);
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(RegisterDto model)
+        public async Task<IActionResult> Register([FromBody]RegisterDto model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await _authService.Register(model);
+            var result = await _userService.Register(model);
 
             if (result.Message != ApiResultMessages.Ok)
                 return BadRequest(result);
