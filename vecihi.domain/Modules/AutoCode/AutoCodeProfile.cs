@@ -11,6 +11,7 @@ namespace vecihi.domain.Modules
             CreateMap<AutoCodeUpdateDto, AutoCode>();
             CreateMap<AutoCode, AutoCodeListDto>();
             CreateMap<AutoCode, AutoCodeCardDto>();
+            CreateMap<AutoCode, AutoCodeExportDto>();
         }
     }
 }

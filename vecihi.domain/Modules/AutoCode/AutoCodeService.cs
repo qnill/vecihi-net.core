@@ -11,13 +11,13 @@ using vecihi.infrastructure;
 namespace vecihi.domain.Modules
 {
     public interface IAutoCodeService
-        : IServiceBase<AutoCodeAddDto, AutoCodeUpdateDto, AutoCodeListDto, AutoCodeCardDto, AutoCodePagingDto, AutoCodeFilterDto, AutoCode, Guid>
+        : IServiceBase<AutoCodeAddDto, AutoCodeUpdateDto, AutoCodeListDto, AutoCodeCardDto, AutoCodePagingDto, AutoCodeExportDto, AutoCodeFilterDto, AutoCode, Guid>
     {
         Task<object> Generate(string screenCode, Guid userId);
     }
 
     public class AutoCodeService
-        : ServiceBase<AutoCodeAddDto, AutoCodeUpdateDto, AutoCodeListDto, AutoCodeCardDto, AutoCodePagingDto, AutoCodeFilterDto, AutoCode, Guid>, IAutoCodeService
+        : ServiceBase<AutoCodeAddDto, AutoCodeUpdateDto, AutoCodeListDto, AutoCodeCardDto, AutoCodePagingDto, AutoCodeExportDto, AutoCodeFilterDto, AutoCode, Guid>, IAutoCodeService
     {
         private readonly IAutoCodeLogService _autoCodeLogService;
 

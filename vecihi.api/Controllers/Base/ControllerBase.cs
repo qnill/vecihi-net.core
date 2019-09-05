@@ -16,14 +16,14 @@ namespace vecihi.api.Controllers
     [Produces("application/json")]
     [Consumes("application/json")]
     [ApiController]
-    public abstract class ControllerBase<AddDto, UpdateDto, ListDto, CardDto, PagingDto, FilterDto, Service, Type>
+    public abstract class ControllerBase<AddDto, UpdateDto, ListDto, CardDto, PagingDto, ExportDto, FilterDto, Service, Type>
         : ControllerBase
         where Type : struct
         where UpdateDto : DtoUpdateBase<Type>
         where ListDto : DtoGetBase<Type>
         where CardDto : DtoGetBase<Type>
         where PagingDto : DtoPagingBase<Type, ListDto>, new()
-        where Service : ICRUDInterface<AddDto, UpdateDto, ListDto, CardDto, PagingDto, FilterDto, Type>
+        where Service : ICRUDInterface<AddDto, UpdateDto, ListDto, CardDto, PagingDto, ExportDto, FilterDto, Type>
     {
         protected Service _service;
         protected readonly IdentityClaimsValue _identityClaimsValue;
@@ -99,7 +99,7 @@ namespace vecihi.api.Controllers
         }
 
         [HttpGet("Get")]
-        public async Task<IActionResult> Get([FromQuery]FilterDto parameters, string sortField = null, bool sortOrder = true)
+        public virtual async Task<IActionResult> Get([FromQuery]FilterDto parameters, string sortField = null, bool sortOrder = true)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -110,7 +110,7 @@ namespace vecihi.api.Controllers
         }
 
         [HttpGet("GetPaging")]
-        public async Task<IActionResult> GetPaging([FromQuery]FilterDto parameters, string sortField = null, bool sortOrder = true,
+        public virtual async Task<IActionResult> GetPaging([FromQuery]FilterDto parameters, string sortField = null, bool sortOrder = true,
             string sumField = null, int? pageSize = null, int? pageNumber = null)
         {
             if (!ModelState.IsValid)
@@ -119,6 +119,22 @@ namespace vecihi.api.Controllers
             var result = await _service.GetPaging(parameters, sortField, sortOrder, sumField, pageSize, pageNumber);
 
             return Ok(result);
+        }
+
+        [HttpGet("ExportToExcel")]
+        public virtual async Task<IActionResult> ExportToExcel([FromQuery]FilterDto paramaters)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var data = await _service.ExportToExcel(paramaters);
+
+            var fileName = typeof(Service).Name.Replace("Service", string.Empty).Remove(0, 1);
+
+            return File(
+                fileContents: data.ToArray(),
+                contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                fileDownloadName: $"{fileName}.xlsx");
         }
     }
 }

@@ -8,11 +8,11 @@ using vecihi.domain.Modules;
 namespace vecihi.api.Controllers
 {
     public class AutoCodeController
-        : ControllerBase<AutoCodeAddDto, AutoCodeUpdateDto, AutoCodeListDto, AutoCodeCardDto, AutoCodePagingDto, AutoCodeFilterDto, IAutoCodeService, Guid>
+        : ControllerBase<AutoCodeAddDto, AutoCodeUpdateDto, AutoCodeListDto, AutoCodeCardDto, AutoCodePagingDto, AutoCodeExportDto, AutoCodeFilterDto, IAutoCodeService, Guid>
     {
         private readonly IAutoCodeLogService _autoCodeLogService;
 
-        public AutoCodeController(IAutoCodeService service, IdentityClaimsValue identityClaimsValue, IAutoCodeLogService autoCodeLogService) 
+        public AutoCodeController(IAutoCodeService service, IdentityClaimsValue identityClaimsValue, IAutoCodeLogService autoCodeLogService)
             : base(service, identityClaimsValue)
         {
             _autoCodeLogService = autoCodeLogService;

@@ -13,6 +13,10 @@ namespace vecihi.domain.Modules
             CreateMap<EmployeeUpdateDto, Employee>();
             CreateMap<Employee, EmployeeListDto>();
             CreateMap<Employee, EmployeeCardDto>();
+            CreateMap<Employee, EmployeeExportDto>()
+                .ForMember(
+                    dest => dest.Email,
+                    opt => opt.MapFrom(src => src.User.Email));
             CreateMap<Employee, Autocomplete<Guid>>()
                 .ForMember(
                     dest => dest.Search,

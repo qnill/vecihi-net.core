@@ -37,6 +37,14 @@ namespace vecihi.domain.Modules
     {
     }
 
+    public class EmployeeExportDto
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string Title { get; set; }
+    }
+
     public class EmployeeFilterDto
     {
         [Filter(SearchType.Contains)]

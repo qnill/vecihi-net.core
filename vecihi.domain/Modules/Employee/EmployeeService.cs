@@ -9,13 +9,13 @@ using vecihi.infrastructure;
 namespace vecihi.domain.Modules
 {
     public interface IEmployeeService
-        : IServiceBase<EmployeeAddDto, EmployeeUpdateDto, EmployeeListDto, EmployeeCardDto, EmployeePagingDto, EmployeeFilterDto, Employee, Guid>
+        : IServiceBase<EmployeeAddDto, EmployeeUpdateDto, EmployeeListDto, EmployeeCardDto, EmployeePagingDto,EmployeeExportDto, EmployeeFilterDto, Employee, Guid>
     {
         Task<InfoForJwtDto> InfoForJwt(Guid userId);
     }
 
     public class EmployeeService
-        : ServiceBase<EmployeeAddDto, EmployeeUpdateDto, EmployeeListDto, EmployeeCardDto, EmployeePagingDto, EmployeeFilterDto, Employee, Guid>, IEmployeeService
+        : ServiceBase<EmployeeAddDto, EmployeeUpdateDto, EmployeeListDto, EmployeeCardDto, EmployeePagingDto, EmployeeExportDto, EmployeeFilterDto, Employee, Guid>, IEmployeeService
     {
         public EmployeeService(UnitOfWork<Guid> uow, IMapper mapper) : base(uow, mapper)
         {

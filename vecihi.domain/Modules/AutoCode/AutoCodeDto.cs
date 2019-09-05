@@ -47,6 +47,12 @@ namespace vecihi.domain.Modules
 
     }
 
+    public class AutoCodeExportDto
+    {
+        public string ScreenCode { get; set; }
+        public string CodeFormat { get; set; }
+    }
+
     public class AutoCodeFilterDto
     {
         [Filter(SearchType.Contains)]

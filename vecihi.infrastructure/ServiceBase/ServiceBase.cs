@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
+using ClosedXML.Excel;
+using FastMember;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using vecihi.helper;
@@ -15,8 +19,8 @@ using static vecihi.helper.Const.Enums;
 
 namespace vecihi.infrastructure
 {
-    public interface IServiceBase<AddDto, UpdateDto, ListDto, CardDto, PagingDto, FilterDto, Entity, Type>
-        : ICRUDInterface<AddDto, UpdateDto, ListDto, CardDto, PagingDto, FilterDto, Type>
+    public interface IServiceBase<AddDto, UpdateDto, ListDto, CardDto, PagingDto,ExportDto, FilterDto, Entity, Type>
+        : ICRUDInterface<AddDto, UpdateDto, ListDto, CardDto, PagingDto, ExportDto, FilterDto, Type>
         where Type : struct
         where Entity : ModelBase<Type>
         where UpdateDto : DtoUpdateBase<Type>
@@ -29,8 +33,8 @@ namespace vecihi.infrastructure
         IQueryable<Entity> PrepareGetQuery(FilterDto parameters);
     }
 
-    public abstract class ServiceBase<AddDto, UpdateDto, ListDto, CardDto, PagingDto, FilterDto, Entity, Type>
-        : IServiceBase<AddDto, UpdateDto, ListDto, CardDto, PagingDto, FilterDto, Entity, Type>
+    public abstract class ServiceBase<AddDto, UpdateDto, ListDto, CardDto, PagingDto, ExportDto, FilterDto, Entity, Type>
+        : IServiceBase<AddDto, UpdateDto, ListDto, CardDto, PagingDto, ExportDto, FilterDto, Entity, Type>
         where Type : struct
         where Entity : ModelBase<Type>
         where UpdateDto : DtoUpdateBase<Type>
@@ -344,6 +348,35 @@ namespace vecihi.infrastructure
                 Sum = Math.Round(sum ?? 0, 2),
                 Records = records.Count == 0 ? new List<ListDto>() : records
             };
+        }
+
+        public virtual async Task <MemoryStream> ExportToExcel(FilterDto parameters)
+        {
+            var query = PrepareGetQuery(parameters);
+
+            var data = await _mapper.ProjectTo<ExportDto>(query).ToListAsync();
+
+            // Converts incoming data to datatable in the order of Dto.
+            string[] props = (data.FirstOrDefault().GetType())
+                .GetProperties()
+                .Select(s => s.Name.ToString())
+                .ToArray();
+
+            DataTable table = new DataTable();
+            using (var reader = ObjectReader.Create(data, props))
+            {
+                table.Load(reader);
+            }
+
+            string sheetName = typeof(Entity).Name;
+
+            XLWorkbook workBook = new XLWorkbook();
+            workBook.Worksheets.Add(table, sheetName);
+
+            MemoryStream stream = new MemoryStream();
+            workBook.SaveAs(stream);
+
+            return stream;
         }
     }
 }
