@@ -122,12 +122,12 @@ namespace vecihi.api.Controllers
         }
 
         [HttpGet("ExportToExcel")]
-        public virtual async Task<IActionResult> ExportToExcel([FromQuery]FilterDto paramaters)
+        public virtual async Task<IActionResult> ExportToExcel([FromQuery]FilterDto paramaters, string sortField = null, bool sortOrder = true)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var data = await _service.ExportToExcel(paramaters);
+            var data = await _service.ExportToExcel(paramaters, sortField, sortOrder);
 
             var fileName = typeof(Service).Name.Replace("Service", string.Empty).Remove(0, 1);
 

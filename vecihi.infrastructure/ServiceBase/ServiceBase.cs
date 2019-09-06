@@ -350,9 +350,17 @@ namespace vecihi.infrastructure
             };
         }
 
-        public virtual async Task <MemoryStream> ExportToExcel(FilterDto parameters)
+        public virtual async Task <MemoryStream> ExportToExcel(FilterDto parameters, string sortField = null, bool sortOrder = true)
         {
             var query = PrepareGetQuery(parameters);
+
+            if (!string.IsNullOrWhiteSpace(sortField))
+            {
+                if (sortOrder)
+                    query = query.OrderBy(sortField);
+                else
+                    query = query.OrderByDescending(sortField);
+            }
 
             var data = await _mapper.ProjectTo<ExportDto>(query).ToListAsync();
 
