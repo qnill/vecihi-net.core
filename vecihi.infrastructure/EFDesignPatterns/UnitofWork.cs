@@ -10,12 +10,13 @@ namespace vecihi.infrastructure
     public class UnitOfWork<Type> : IDisposable
         where Type : struct
     {
-        private readonly VecihiDbContext _context;
         private readonly Dictionary<System.Type, object> _repositories = new Dictionary<System.Type, object>();
+
+        public VecihiDbContext Context { get; set; }
 
         public UnitOfWork(VecihiDbContext context)
         {
-            _context = context;
+            Context = context;
         }
 
         public IRepository<Entity, Type> Repository<Entity>()
@@ -24,7 +25,7 @@ namespace vecihi.infrastructure
             if (_repositories.Keys.Contains(typeof(Entity)) == true)
                 return _repositories[typeof(Entity)] as IRepository<Entity, Type>;
 
-            IRepository<Entity, Type> repository = new Repository<Entity, Type>(_context);
+            IRepository<Entity, Type> repository = new Repository<Entity, Type>(Context);
             _repositories.Add(typeof(Entity), repository);
 
             return repository;
@@ -32,7 +33,7 @@ namespace vecihi.infrastructure
 
         public virtual async Task<int> SaveChangesAsync()
         {
-            return await _context.SaveChangesAsync();
+            return await Context.SaveChangesAsync();
         }
 
         private bool disposed = false;
@@ -40,7 +41,7 @@ namespace vecihi.infrastructure
         {
             if (!disposed)
                 if (disposing)
-                    _context.Dispose();
+                    Context.Dispose();
 
             disposed = true;
         }
