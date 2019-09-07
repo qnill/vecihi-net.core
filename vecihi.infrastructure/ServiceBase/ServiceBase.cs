@@ -365,10 +365,14 @@ namespace vecihi.infrastructure
             var data = await _mapper.ProjectTo<ExportDto>(query).ToListAsync();
 
             // Converts incoming data to datatable in the order of Dto.
-            string[] props = (data.FirstOrDefault().GetType())
-                .GetProperties()
-                .Select(s => s.Name.ToString())
-                .ToArray();
+            string[] props = null;
+            if (data.FirstOrDefault() != null)
+            {
+                props = (data.FirstOrDefault().GetType())
+                    .GetProperties()
+                    .Select(s => s.Name.ToString())
+                    .ToArray();
+            }
 
             DataTable table = new DataTable();
             using (var reader = ObjectReader.Create(data, props))
