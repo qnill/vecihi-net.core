@@ -28,7 +28,7 @@ namespace vecihi.domain.Modules
 
         public async Task Add(AutoCodeLog entity, bool isCommit = true)
         {
-            _uow.Repository<AutoCodeLog>().Add(entity);
+            await _uow.Repository<AutoCodeLog>().Add(entity);
 
             if (isCommit)
                 await _uow.SaveChangesAsync();

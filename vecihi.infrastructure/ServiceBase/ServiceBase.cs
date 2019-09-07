@@ -76,7 +76,7 @@ namespace vecihi.infrastructure
         {
             Entity entity = AddMapping(model, userId);
 
-            _uow.Repository<Entity>().Add(entity);
+            await _uow.Repository<Entity>().Add(entity);
 
             if (isCommit)
                 await _uow.SaveChangesAsync();
@@ -378,13 +378,15 @@ namespace vecihi.infrastructure
 
             string sheetName = typeof(Entity).Name;
 
-            XLWorkbook workBook = new XLWorkbook();
-            workBook.Worksheets.Add(table, sheetName);
+            using (XLWorkbook workBook = new XLWorkbook())
+            {
+                workBook.Worksheets.Add(table, sheetName);
 
-            MemoryStream stream = new MemoryStream();
-            workBook.SaveAs(stream);
+                MemoryStream stream = new MemoryStream();
+                workBook.SaveAs(stream);
 
-            return stream;
+                return stream;
+            }
         }
     }
 }

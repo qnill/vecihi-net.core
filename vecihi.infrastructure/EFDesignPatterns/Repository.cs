@@ -11,10 +11,10 @@ namespace vecihi.infrastructure
         where Type : struct
     {
         VecihiDbContext Context { get; set; }
+        Task Add(Entity entity);
         Task<Entity> GetById(Type id, bool isDeleted = false);
         IQueryable<Entity> Get(bool isDeleted = false);
         IQueryable<Entity> Query(bool isDeleted = false);
-        void Add(Entity entity);
     }
 
     public class Repository<Entity, Type> : IRepository<Entity, Type>
@@ -22,14 +22,23 @@ namespace vecihi.infrastructure
         where Type : struct
     {
         public VecihiDbContext Context { get; set; }
+
         public Repository(VecihiDbContext context)
         {
             Context = context;
         }
 
+        public virtual async Task Add(Entity entity)
+        {
+            await Context
+                .Set<Entity>()
+                .AddAsync(entity);
+        }
+
         public virtual async Task<Entity> GetById(Type id, bool isDeleted = false)
         {
-            return await Context.Set<Entity>()
+            return await Context
+                .Set<Entity>()
                 .Equal("Id", id)
                 .Where(x => x.IsDeleted == isDeleted)
                 .FirstOrDefaultAsync();
@@ -37,17 +46,18 @@ namespace vecihi.infrastructure
 
         public IQueryable<Entity> Get(bool isDeleted = false)
         {
-            return Context.Set<Entity>().Where(x => x.IsDeleted == isDeleted).AsQueryable();
+            return Context
+                .Set<Entity>()
+                .Where(x => x.IsDeleted == isDeleted)
+                .AsQueryable();
         }
 
         public IQueryable<Entity> Query(bool isDeleted = false)
         {
-            return Context.Set<Entity>().AsNoTracking().Where(x => x.IsDeleted == isDeleted);
-        }
-
-        public virtual void Add(Entity entity)
-        {
-            Context.Set<Entity>().Add(entity);
+            return Context
+                .Set<Entity>()
+                .AsNoTracking()
+                .Where(x => x.IsDeleted == isDeleted);
         }
     }
 }
