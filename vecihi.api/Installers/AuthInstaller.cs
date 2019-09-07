@@ -50,6 +50,8 @@ namespace vecihi.api.Installers
                 configureOptions.TokenValidationParameters = tokenValidationParameters;
                 configureOptions.SaveToken = true;
             });
+
+            services.AddSingleton(tokenValidationParameters);
         }
     }
 }

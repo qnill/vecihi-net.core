@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace vecihi.auth
 {
@@ -23,6 +25,12 @@ namespace vecihi.auth
 
             if (options.JtiGenerator == null)
                 throw new ArgumentNullException(nameof(JwtOptions.JtiGenerator));
+        }
+
+        public static bool IsJwtWithValidSecurityAlgorithm(SecurityToken validatedToken)
+        {
+            return (validatedToken is JwtSecurityToken jwtSecurityToken)
+                && jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }

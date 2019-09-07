@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
 namespace vecihi.database.Migrations
 {
@@ -87,6 +87,21 @@ namespace vecihi.database.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_File", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RefreshToken",
+                columns: table => new
+                {
+                    Token = table.Column<string>(nullable: false),
+                    JwtId = table.Column<string>(nullable: true),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    ExpiryDate = table.Column<DateTime>(nullable: false),
+                    Used = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshToken", x => x.Token);
                 });
 
             migrationBuilder.CreateTable(
@@ -252,12 +267,12 @@ namespace vecihi.database.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LastLoginDate", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"), 0, "00f2abb4-b297-448c-8081-7e1d8820d5ae", "qnill@foo.com", true, null, false, null, "QNILL@FOO.COM", "QNILL", "AQAAAAEAACcQAAAAEI9wRRam6GzQR3oK1v5U+CqjKoj8Xx7d89hEQmbJZ6yoAFeiXYbTRNpgL2spaCgU6w==", null, false, "ec8870d4-9eca-4ff7-a741-2b4e4970a41a", false, "qnill" });
+                values: new object[] { new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"), 0, "54615999-b74b-40c8-b999-cb13754a48c2", "qnill@foo.com", true, null, false, null, "QNILL@FOO.COM", "QNILL", "AQAAAAEAACcQAAAAEHOKW+FUZuxL31tpQIvdFsg5XKLJ7zy19n6cShK06dJPWlU0C/qBgpZ2Lf9bqIDaIw==", null, false, "d6dd0f7c-474c-4fe1-8762-31f8fd8b5673", false, "qnill" });
 
             migrationBuilder.InsertData(
                 table: "Employee",
                 columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsDeleted", "Name", "Phone", "Title", "UpdatedAt", "UpdatedBy", "UserId" },
-                values: new object[] { new Guid("0c5337a5-ca82-4c97-94e9-00101a1d749d"), new DateTime(2019, 9, 4, 23, 17, 0, 352, DateTimeKind.Local).AddTicks(1689), new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"), false, "qnill", null, "Back-end Developer", null, null, new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059") });
+                values: new object[] { new Guid("0c5337a5-ca82-4c97-94e9-00101a1d749d"), new DateTime(2019, 9, 7, 14, 55, 17, 545, DateTimeKind.Local).AddTicks(3231), new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"), false, "qnill", null, "Back-end Developer", null, null, new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -339,6 +354,9 @@ namespace vecihi.database.Migrations
 
             migrationBuilder.DropTable(
                 name: "File");
+
+            migrationBuilder.DropTable(
+                name: "RefreshToken");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

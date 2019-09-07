@@ -77,11 +77,13 @@
         #region Email
 
         #region Warning
+
         /// <summary>
         /// At least one e-mail address must be selected in order to send e-mail
         /// - Status Code: Unauthorized
         /// </summary>
         public const string EMW0001 = "EMW0001";
+
         #endregion Warning
 
         #endregion Email
@@ -96,6 +98,7 @@
         /// - Status Code: NotAcceptable
         /// </summary>
         public const string ACW0001 = "ACW0001";
+
         #endregion Warning
 
         #endregion AutoCode
@@ -104,6 +107,7 @@
         #region File
 
         #region Error
+
         /// <summary>
         /// File is not found
         /// - Status Code: NotFound
@@ -119,6 +123,7 @@
         #endregion Error
 
         #region Warning
+
         /// <summary>
         /// Unsupported file type
         /// - Status Code: UnsupportedMediaType
@@ -133,11 +138,42 @@
         #region Auth
 
         #region Error
+
         /// <summary>
         /// The username or password is incorrect.
         /// - Status Code: BadRequest
         /// </summary>
         public const string AUE0001 = "AUE0001";
+
+        /// <summary>
+        /// Invalid Token.
+        /// - Status Code: BadRequest
+        /// </summary>
+        public const string AUE0002 = "AUE0002";
+
+        /// <summary>
+        /// This refresh token does not exist.
+        /// - Status Code: BadRequest
+        /// </summary>
+        public const string AUE0003 = "AUE0003";
+
+        /// <summary>
+        /// This refresh token has expired.
+        /// - Status Code: BadRequest
+        /// </summary>
+        public const string AUE0004 = "AUE0004";
+
+        /// <summary>
+        /// This refresh token has been used.
+        /// - Status Code: BadRequest
+        /// </summary>
+        public const string AUE0005 = "AUE0005";
+
+        /// <summary>
+        /// This refresh token does not match this JWT.
+        /// - Status Code: BadRequest
+        /// </summary>
+        public const string AUE0006 = "AUE0006";
 
         #endregion Error
 

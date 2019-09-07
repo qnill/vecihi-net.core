@@ -10,7 +10,7 @@ using vecihi.database;
 namespace vecihi.database.Migrations
 {
     [DbContext(typeof(VecihiDbContext))]
-    [Migration("20190904201700_Init-Bp")]
+    [Migration("20190907115517_Init-Bp")]
     partial class InitBp
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -218,7 +218,7 @@ namespace vecihi.database.Migrations
                         new
                         {
                             Id = new Guid("0c5337a5-ca82-4c97-94e9-00101a1d749d"),
-                            CreatedAt = new DateTime(2019, 9, 4, 23, 17, 0, 352, DateTimeKind.Local).AddTicks(1689),
+                            CreatedAt = new DateTime(2019, 9, 7, 14, 55, 17, 545, DateTimeKind.Local).AddTicks(3231),
                             CreatedBy = new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"),
                             IsDeleted = false,
                             Name = "qnill",
@@ -265,6 +265,24 @@ namespace vecihi.database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("File");
+                });
+
+            modelBuilder.Entity("vecihi.database.model.RefreshToken", b =>
+                {
+                    b.Property<string>("Token")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<DateTime>("ExpiryDate");
+
+                    b.Property<string>("JwtId");
+
+                    b.Property<bool>("Used");
+
+                    b.HasKey("Token");
+
+                    b.ToTable("RefreshToken");
                 });
 
             modelBuilder.Entity("vecihi.database.model.User", b =>
@@ -324,15 +342,15 @@ namespace vecihi.database.Migrations
                         {
                             Id = new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "00f2abb4-b297-448c-8081-7e1d8820d5ae",
+                            ConcurrencyStamp = "54615999-b74b-40c8-b999-cb13754a48c2",
                             Email = "qnill@foo.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "QNILL@FOO.COM",
                             NormalizedUserName = "QNILL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEI9wRRam6GzQR3oK1v5U+CqjKoj8Xx7d89hEQmbJZ6yoAFeiXYbTRNpgL2spaCgU6w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHOKW+FUZuxL31tpQIvdFsg5XKLJ7zy19n6cShK06dJPWlU0C/qBgpZ2Lf9bqIDaIw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ec8870d4-9eca-4ff7-a741-2b4e4970a41a",
+                            SecurityStamp = "d6dd0f7c-474c-4fe1-8762-31f8fd8b5673",
                             TwoFactorEnabled = false,
                             UserName = "qnill"
                         });
