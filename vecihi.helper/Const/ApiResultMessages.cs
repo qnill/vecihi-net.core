@@ -79,6 +79,16 @@
         #region Warning
 
         /// <summary>
+        /// There was an error sending the email.
+        /// - Status Code: Unauthorized
+        /// </summary>
+        public const string EME0001 = "EME0001";
+
+        #endregion Warning
+
+        #region Warning
+
+        /// <summary>
         /// At least one e-mail address must be selected in order to send e-mail
         /// - Status Code: Unauthorized
         /// </summary>

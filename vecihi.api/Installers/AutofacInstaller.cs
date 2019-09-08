@@ -25,6 +25,7 @@ namespace vecihi.api.Installers
             builder.RegisterType<UnitOfWork<Guid>>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<HttpContextAccessor>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<IdentityClaimsValue>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<EmailSender>().AsImplementedInterfaces().InstancePerLifetimeScope();
 
             var container = builder.Build();
             return new AutofacServiceProvider(container);

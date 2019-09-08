@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using vecihi.infrastructure;
 
 namespace vecihi.api.Installers
 {
@@ -12,6 +13,13 @@ namespace vecihi.api.Installers
             services
                 .AddMvc(options => { options.OutputFormatters.RemoveType<StringOutputFormatter>(); })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            #region  Read-App-Parameters
+
+            // Email
+            services.Configure<EmailSettings>(Configuration.GetSection("AppParameters:" + nameof(EmailSettings)));
+
+            #endregion
         }
     }
 }

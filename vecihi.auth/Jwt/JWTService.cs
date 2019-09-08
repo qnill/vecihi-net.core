@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -102,10 +101,8 @@ namespace vecihi.auth
 
                 return principal;
             }
-            catch (Exception ex)
+            catch
             {
-                Trace.WriteLine(ex.Message);
-
                 return null;
             }
         }

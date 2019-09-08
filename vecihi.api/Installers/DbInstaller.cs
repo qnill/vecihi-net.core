@@ -9,7 +9,7 @@ namespace vecihi.api.Installers
     {
         public void InstallServices(IServiceCollection services, IConfiguration Configuration)
         {
-            services.AddDbContext<VecihiDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("vecihiDbConnection"),
+            services.AddDbContext<VecihiDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("VecihiDbConnection"),
                 b => b.MigrationsAssembly("vecihi.database")));
         }
     }
