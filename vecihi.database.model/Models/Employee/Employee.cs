@@ -8,7 +8,7 @@ namespace vecihi.database.model
     /// If you customize this class, you need to customize the classes 
     /// in the 'EmployeeDto' file so that the related services can work properly.
     /// </summary>
-    public class Employee : ModelBaseAudit<Guid>
+    public class Employee : ModelAuditBase<Guid>
     {
         [Required, MaxLength(50)]
         public string Name { get; set; }

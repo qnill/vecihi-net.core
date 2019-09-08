@@ -13,7 +13,7 @@ namespace vecihi.database.model
     /// the corresponding service is triggered and the automatic code is generated before
     /// the 'post' operation is performed on the code format defined screen.
     /// </summary>
-    public class AutoCode : ModelBaseAudit<Guid>
+    public class AutoCode : ModelAuditBase<Guid>
     {
         /// <summary>
         /// Fixed screen codes

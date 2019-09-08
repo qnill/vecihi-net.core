@@ -63,10 +63,10 @@ namespace vecihi.infrastructure
                     entity.Id = (Type)TypeDescriptor.GetConverter(typeof(Type)).ConvertFromInvariantString(Guid.NewGuid().ToString());
             }
 
-            if (entity is IModelBaseAudit<Type>)
+            if (entity is IModelAuditBase<Type>)
             {
-                (entity as IModelBaseAudit<Type>).CreatedBy = userId;
-                (entity as IModelBaseAudit<Type>).CreatedAt = DateTime.Now;
+                (entity as IModelAuditBase<Type>).CreatedBy = userId;
+                (entity as IModelAuditBase<Type>).CreatedAt = DateTime.Now;
             }
 
             return entity;
@@ -88,10 +88,10 @@ namespace vecihi.infrastructure
         {
             Entity entity = await _uow.Repository<Entity>().GetById(model.Id);
 
-            if (entity is IModelBaseAudit<Type>)
+            if (entity is IModelAuditBase<Type>)
             {
-                (entity as IModelBaseAudit<Type>).UpdatedBy = userId;
-                (entity as IModelBaseAudit<Type>).UpdatedAt = DateTime.Now;
+                (entity as IModelAuditBase<Type>).UpdatedBy = userId;
+                (entity as IModelAuditBase<Type>).UpdatedAt = DateTime.Now;
             }
 
             _mapper.Map(model, entity);
@@ -107,7 +107,7 @@ namespace vecihi.infrastructure
                 return new ApiResult { Data = model.Id, Message = ApiResultMessages.GNE0001 };
 
             // Access Control
-            if (entity is IModelBaseAudit<Type> && checkAuthorize && !(entity as IModelBaseAudit<Type>).CreatedBy.Equals(userId))
+            if (entity is IModelAuditBase<Type> && checkAuthorize && !(entity as IModelAuditBase<Type>).CreatedBy.Equals(userId))
                 return new ApiResult { Data = model.Id, Message = ApiResultMessages.GNW0001 };
 
             if (isCommit)
@@ -123,14 +123,14 @@ namespace vecihi.infrastructure
             if (entity == null)
                 return new ApiResult { Data = id, Message = ApiResultMessages.GNE0001 };
 
-            if (entity is IModelBaseAudit<Type>)
+            if (entity is IModelAuditBase<Type>)
             {
                 // Access Control
-                if (checkAuthorize && userId != null && !(entity as IModelBaseAudit<Type>).CreatedBy.Equals(userId.Value))
+                if (checkAuthorize && userId != null && !(entity as IModelAuditBase<Type>).CreatedBy.Equals(userId.Value))
                     return new ApiResult { Message = ApiResultMessages.GNW0001 };
 
-                (entity as IModelBaseAudit<Type>).UpdatedAt = DateTime.Now;
-                (entity as IModelBaseAudit<Type>).UpdatedBy = userId.Value;
+                (entity as IModelAuditBase<Type>).UpdatedAt = DateTime.Now;
+                (entity as IModelAuditBase<Type>).UpdatedBy = userId.Value;
             }
 
             entity.IsDeleted = true;
