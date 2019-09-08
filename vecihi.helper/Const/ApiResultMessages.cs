@@ -19,7 +19,7 @@
         /// </summary>
         public const string Ok = "Ok";
 
-        #endregion Success
+        #endregion
 
         #region Error
 
@@ -30,53 +30,29 @@
         public const string GNE0001 = "GNE0001";
 
         /// <summary>
-        /// Failed send mail to user
-        /// - Status Code: InternalServerError
-        /// </summary>
-        public const string GNE0002 = "GNE0002";
-
-        /// <summary>
-        /// A registration has already been created with this email
-        /// - Status Code: BadRequest
-        /// </summary>
-        public const string GNE0003 = "GNE0003";
-
-        /// <summary>
         /// An error occurred while recording
         /// - Status Code: BadRequest
         /// </summary>
-        public const string GNE0004 = "GNE0004";
+        public const string GNE0002 = "GNE0002";
 
-        #endregion Error
+        #endregion
 
         #region Warning
-
+        
         /// <summary>
         /// You are not authorized to perform this operation
         /// - Status Code: Unauthorized
         /// </summary>
         public const string GNW0001 = "GNW0001";
 
-        /// <summary>
-        /// The corresponding screen code is not found
-        /// - Status Code: NotFound
-        /// </summary>
-        public const string GNW0002 = "GNW0002";
+        #endregion
 
-        /// <summary>
-        /// No fields were found to be sorted.
-        /// - Status Code: NotFound
-        /// </summary>
-        public const string GNW0003 = "GNW0003";
-
-        #endregion Warning
-
-        #endregion General
+        #endregion
 
         // Module:EM
         #region Email
 
-        #region Warning
+        #region Error
 
         /// <summary>
         /// There was an error sending the email.
@@ -84,7 +60,7 @@
         /// </summary>
         public const string EME0001 = "EME0001";
 
-        #endregion Warning
+        #endregion
 
         #region Warning
 
@@ -94,9 +70,9 @@
         /// </summary>
         public const string EMW0001 = "EMW0001";
 
-        #endregion Warning
+        #endregion
 
-        #endregion Email
+        #endregion
 
         // Module:AC
         #region AutoCode
@@ -109,9 +85,15 @@
         /// </summary>
         public const string ACW0001 = "ACW0001";
 
-        #endregion Warning
+        /// <summary>
+        /// The corresponding screen code is not found
+        /// - Status Code: NotFound
+        /// </summary>
+        public const string ACW0002 = "ACW0002";
 
-        #endregion AutoCode
+        #endregion
+
+        #endregion
 
         // Module:FL
         #region File
@@ -130,7 +112,7 @@
         /// </summary>
         public const string FLE0002 = "FLE0002";
 
-        #endregion Error
+        #endregion
 
         #region Warning
 
@@ -140,7 +122,7 @@
         /// </summary>
         public const string FLW0001 = "FLW0001";
 
-        #endregion Warning
+        #endregion
 
         #endregion
 
@@ -185,7 +167,7 @@
         /// </summary>
         public const string AUE0006 = "AUE0006";
 
-        #endregion Error
+        #endregion
 
         #endregion
     }

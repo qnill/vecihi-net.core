@@ -49,7 +49,7 @@ namespace vecihi.domain.Modules
         public override async Task<ApiResult> Add(AutoCodeAddDto model, Guid userId, bool isCommit = true)
         {
             if (!CheckScreenCode(model.ScreenCode))
-                return new ApiResult { Message = ApiResultMessages.GNW0002 };
+                return new ApiResult { Message = ApiResultMessages.ACW0002 };
 
             if (!CheckCodeFormat(model.CodeFormat))
                 return new ApiResult { Message = ApiResultMessages.ACW0001 };
