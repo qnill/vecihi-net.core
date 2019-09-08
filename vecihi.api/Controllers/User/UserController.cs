@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using vecihi.auth;
 using vecihi.domain.Modules;
+using vecihi.helper;
 using vecihi.helper.Const;
 
 namespace vecihi.api.Controllers
@@ -44,6 +45,36 @@ namespace vecihi.api.Controllers
                 return BadRequest(ModelState);
 
             var result = await _userService.Register(model);
+
+            if (result.Message != ApiResultMessages.Ok)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpPost("RemindPassword")]
+        [ProducesResponseType(typeof(ApiResult), 200)]
+        public async Task<IActionResult> RemindPassword([FromBody]RemindPasswordDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.RemindPassword(model);
+
+            if (result.Message != ApiResultMessages.Ok)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpPost("ResetPassword")]
+        [ProducesResponseType(typeof(ApiResult), 200)]
+        public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.ResetPassword(model);
 
             if (result.Message != ApiResultMessages.Ok)
                 return BadRequest(result);
