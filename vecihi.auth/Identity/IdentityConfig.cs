@@ -10,6 +10,7 @@ namespace vecihi.auth
         {
             var identityBuilder = services.AddIdentityCore<User>(o =>
              {
+                 o.User.RequireUniqueEmail = true;
                  o.Password.RequireDigit = true;
                  o.Password.RequireLowercase = true;
                  o.Password.RequireUppercase = true;

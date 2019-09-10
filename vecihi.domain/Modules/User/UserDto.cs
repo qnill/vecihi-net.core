@@ -14,19 +14,18 @@ namespace vecihi.domain.Modules
     {
         [Required]
         public string UserName { get; set; }
-        [Required, DataType(DataType.Password)]
+        [Required]
         public string Password { get; set; }
-        [Required, DataType(DataType.Password), Compare("Password")]
+        [Required, Compare("Password")]
         public string ConfirmPassword { get; set; }
-        [Required, DataType(DataType.EmailAddress)]
+        [Required, EmailAddress]
         public string Email { get; set; }
-        [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
     }
 
     public class RemindPasswordDto
     {
-        [Required, DataType(DataType.EmailAddress)]
+        [Required, EmailAddress]
         public string Email { get; set; }
     }
 
@@ -34,11 +33,11 @@ namespace vecihi.domain.Modules
     {
         [Required]
         public string Token { get; set; }
-        [Required, DataType(DataType.EmailAddress)]
+        [Required, EmailAddress]
         public string Email { get; set; }
-        [Required, DataType(DataType.Password)]
+        [Required]
         public string Password { get; set; }
-        [Required, DataType(DataType.Password), Compare("Password")]
+        [Required, Compare("Password")]
         public string ConfirmPassword { get; set; }
     }
 }
