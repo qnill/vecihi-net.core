@@ -10,7 +10,6 @@ namespace vecihi.database
         public static void Seed(this ModelBuilder builder)
         {
             var hasher = new PasswordHasher<User>();
-
             builder.Entity<User>().HasData(
                 new User
                 {
@@ -21,7 +20,8 @@ namespace vecihi.database
                     NormalizedEmail = "QNILL@FOO.COM",
                     EmailConfirmed = true,
                     PasswordHash = hasher.HashPassword(null, "Test123*"),
-                    SecurityStamp = Guid.NewGuid().ToString("D")
+                    SecurityStamp = string.Empty,
+                    ConcurrencyStamp = string.Empty
                 });
 
             builder.Entity<Employee>().HasData(
@@ -31,7 +31,7 @@ namespace vecihi.database
                     Title = "Back-end Developer",
                     Name = "qnill",
                     UserId = Guid.Parse("7cbf9971-7957-48dd-8198-3394a9bf0059"),
-                    CreatedAt = DateTime.Now,
+                    CreatedAt = new DateTime(2019, 9, 1),
                     CreatedBy = Guid.Parse("7cbf9971-7957-48dd-8198-3394a9bf0059")
                 });
         }

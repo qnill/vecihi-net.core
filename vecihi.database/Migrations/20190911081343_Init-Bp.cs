@@ -267,12 +267,12 @@ namespace vecihi.database.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LastLoginDate", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"), 0, "54615999-b74b-40c8-b999-cb13754a48c2", "qnill@foo.com", true, null, false, null, "QNILL@FOO.COM", "QNILL", "AQAAAAEAACcQAAAAEHOKW+FUZuxL31tpQIvdFsg5XKLJ7zy19n6cShK06dJPWlU0C/qBgpZ2Lf9bqIDaIw==", null, false, "d6dd0f7c-474c-4fe1-8762-31f8fd8b5673", false, "qnill" });
+                values: new object[] { new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"), 0, "", "qnill@foo.com", true, null, false, null, "QNILL@FOO.COM", "QNILL", "AQAAAAEAACcQAAAAEGr6w37fOE67RKFyHIWzTa39Efh0B6rqBnoCGUe09i98kleHeEhXvcyNRtRI5rgehA==", null, false, "", false, "qnill" });
 
             migrationBuilder.InsertData(
                 table: "Employee",
                 columns: new[] { "Id", "CreatedAt", "CreatedBy", "IsDeleted", "Name", "Phone", "Title", "UpdatedAt", "UpdatedBy", "UserId" },
-                values: new object[] { new Guid("0c5337a5-ca82-4c97-94e9-00101a1d749d"), new DateTime(2019, 9, 7, 14, 55, 17, 545, DateTimeKind.Local).AddTicks(3231), new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"), false, "qnill", null, "Back-end Developer", null, null, new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059") });
+                values: new object[] { new Guid("0c5337a5-ca82-4c97-94e9-00101a1d749d"), new DateTime(2019, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"), false, "qnill", null, "Back-end Developer", null, null, new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

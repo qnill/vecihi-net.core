@@ -10,7 +10,7 @@ using vecihi.database;
 namespace vecihi.database.Migrations
 {
     [DbContext(typeof(VecihiDbContext))]
-    [Migration("20190907115517_Init-Bp")]
+    [Migration("20190911081343_Init-Bp")]
     partial class InitBp
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -218,7 +218,7 @@ namespace vecihi.database.Migrations
                         new
                         {
                             Id = new Guid("0c5337a5-ca82-4c97-94e9-00101a1d749d"),
-                            CreatedAt = new DateTime(2019, 9, 7, 14, 55, 17, 545, DateTimeKind.Local).AddTicks(3231),
+                            CreatedAt = new DateTime(2019, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"),
                             IsDeleted = false,
                             Name = "qnill",
@@ -342,15 +342,15 @@ namespace vecihi.database.Migrations
                         {
                             Id = new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "54615999-b74b-40c8-b999-cb13754a48c2",
+                            ConcurrencyStamp = "",
                             Email = "qnill@foo.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "QNILL@FOO.COM",
                             NormalizedUserName = "QNILL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHOKW+FUZuxL31tpQIvdFsg5XKLJ7zy19n6cShK06dJPWlU0C/qBgpZ2Lf9bqIDaIw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGr6w37fOE67RKFyHIWzTa39Efh0B6rqBnoCGUe09i98kleHeEhXvcyNRtRI5rgehA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d6dd0f7c-474c-4fe1-8762-31f8fd8b5673",
+                            SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "qnill"
                         });
