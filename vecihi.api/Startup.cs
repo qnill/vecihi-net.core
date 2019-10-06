@@ -36,7 +36,7 @@ namespace vecihi.api
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "vecihi.net-core");
+                c.SwaggerEndpoint("/swagger/v2/swagger.json", "vecihi.net-core");
                 c.RoutePrefix = string.Empty;
             });
 

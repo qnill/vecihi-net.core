@@ -14,9 +14,9 @@ namespace vecihi.api.Installers
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo
+                c.SwaggerDoc("v2", new OpenApiInfo
                 {
-                    Version = "v1",
+                    Version = "v2",
                     Title = "Vecihi bp API",
                     Description = "Vecihi .NET Core Boilerplate",
                     License = new OpenApiLicense
