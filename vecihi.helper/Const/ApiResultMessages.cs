@@ -167,6 +167,18 @@
         /// </summary>
         public const string AUE0006 = "AUE0006";
 
+        /// <summary>
+        /// Email not confirmed, please check your email address.
+        /// - Status Code: BadRequest
+        /// </summary>
+        public const string AUE0007 = "AUE0007";
+
+        /// <summary>
+        /// This mail has already been activated.
+        /// - Status Code: BadRequest
+        /// </summary>
+        public const string AUE0008 = "AUE0008";
+
         #endregion
 
         #endregion

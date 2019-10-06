@@ -81,5 +81,35 @@ namespace vecihi.api.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("SendEmailForActivation")]
+        [ProducesResponseType(typeof(ApiResult), 200)]
+        public async Task<IActionResult> SendEmailForActivation([FromBody]SendEmailForActivationDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.SendEmailForActivation(model);
+
+            if (result.Message != ApiResultMessages.Ok)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpPost("ConfirmEmail")]
+        [ProducesResponseType(typeof(ApiResult), 200)]
+        public async Task<IActionResult> ConfirmEmail([FromBody]ConfirmEmailDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.ConfirmEmail(model);
+
+            if (result.Message != ApiResultMessages.Ok)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
     }
 }

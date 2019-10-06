@@ -40,4 +40,18 @@ namespace vecihi.domain.Modules
         [Required, Compare("Password")]
         public string ConfirmPassword { get; set; }
     }
+
+    public class SendEmailForActivationDto
+    {
+        [Required, EmailAddress]
+        public string Email { get; set; }
+    }
+
+    public class ConfirmEmailDto
+    {
+        [Required]
+        public string Token { get; set; }
+        [Required, EmailAddress]
+        public string Email { get; set; }
+    }
 }
