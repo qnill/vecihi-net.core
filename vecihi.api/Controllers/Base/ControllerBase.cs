@@ -82,7 +82,7 @@ namespace vecihi.api.Controllers
             var result = await _service.GetById(id);
 
             if (result == null)
-                return BadRequest(ApiResultMessages.GNE0001);
+                return BadRequest(new ApiResult { Data = id, Message = ApiResultMessages.GNE0001 });
 
             return Ok(result);
         }
