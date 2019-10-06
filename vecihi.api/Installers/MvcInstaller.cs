@@ -11,10 +11,14 @@ namespace vecihi.api.Installers
         public void InstallServices(IServiceCollection services, IConfiguration Configuration)
         {
             services
-                .AddMvc(options => { options.OutputFormatters.RemoveType<StringOutputFormatter>(); })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                .AddMvc(options =>
+                {
+                    options.EnableEndpointRouting = false;
+                    options.OutputFormatters.RemoveType<StringOutputFormatter>();
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-            #region  Read-App-Parameters
+            #region Read-App-Parameters
 
             // Email
             services.Configure<EmailSettings>(Configuration.GetSection("AppParameters:" + nameof(EmailSettings)));

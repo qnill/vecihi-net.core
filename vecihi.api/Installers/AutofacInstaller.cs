@@ -16,8 +16,12 @@ namespace vecihi.api.Installers
             var builder = new ContainerBuilder();
             builder.Populate(services);
 
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(x => x.FullName.Contains(nameof(domain)) || x.FullName.Contains(nameof(auth)))
+                .ToArray();
+
             // Load All Services
-            builder.RegisterAssemblyTypes(AppDomain.CurrentDomain.GetAssemblies())
+            builder.RegisterAssemblyTypes(assemblies)
                 .Where(x => x.Name.EndsWith("Service"))
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
