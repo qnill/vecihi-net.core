@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using vecihi.database.model;
 using vecihi.helper;
@@ -39,10 +40,10 @@ namespace vecihi.infrastructure
         Task<IList<Type>> UpdateMappingChild<ChildEntity, ChildModel>(IList<ChildModel> models, Type userId)
             where ChildEntity : ModelBase<Type>
             where ChildModel : IDtoUpdateBase<Type>;
-        Task<Entity> DeleteMapping(Type id, Type? userId = null, IList<string> navigations = null);
-        ICollection<ChildEntity> DeleteMappingChild<ChildEntity>(ICollection<ChildEntity> entities, Type? userId = null)
+        Task<Entity> DeleteMapping(Type id, Type userId, IList<string> navigations = null);
+        ICollection<ChildEntity> DeleteMappingChild<ChildEntity>(ICollection<ChildEntity> entities, Type userId)
             where ChildEntity : ModelBase<Type>;
-        IQueryable<Entity> PrepareGetQuery(FilterDto parameters);
+        IQueryable<Entity> PrepareGetQuery(FilterDto parameters, string sortField = null, bool sortOrder = true);
     }
 
     public abstract class ServiceBase<AddDto, UpdateDto, ListDto, CardDto, PagingDto, ExportDto, FilterDto, Entity, Type>
@@ -116,7 +117,7 @@ namespace vecihi.infrastructure
         {
             Entity entity = AddMapping(model, userId);
 
-            await _uow.Repository<Entity>().Add(entity);
+            await _uow.Repository<Entity>().AddAsync(entity);
 
             if (isCommit)
                 await _uow.SaveChangesAsync();
@@ -181,7 +182,7 @@ namespace vecihi.infrastructure
             return new ApiResult { Data = entity.Id, Message = ApiResultMessages.Ok };
         }
 
-        public virtual async Task<Entity> DeleteMapping(Type id, Type? userId = null, IList<string> navigations = null)
+        public virtual async Task<Entity> DeleteMapping(Type id, Type userId, IList<string> navigations = null)
         {
             var query = _uow.Repository<Entity>().Get().Equal("Id", id);
 
@@ -194,7 +195,7 @@ namespace vecihi.infrastructure
             return await query.FirstOrDefaultAsync();
         }
 
-        public virtual ICollection<ChildEntity> DeleteMappingChild<ChildEntity>(ICollection<ChildEntity> entities, Type? userId = null)
+        public virtual ICollection<ChildEntity> DeleteMappingChild<ChildEntity>(ICollection<ChildEntity> entities, Type userId)
             where ChildEntity : ModelBase<Type>
         {
             entities.ToList().ForEach(entity =>
@@ -202,7 +203,7 @@ namespace vecihi.infrastructure
                 if (entity is IModelAuditBase<Type, User>)
                 {
                     (entity as IModelAuditBase<Type, User>).UpdatedAt = DateTime.UtcNow;
-                    (entity as IModelAuditBase<Type, User>).UpdatedBy = userId.Value;
+                    (entity as IModelAuditBase<Type, User>).UpdatedBy = userId;
                 }
 
                 entity.IsDeleted = true;
@@ -211,7 +212,7 @@ namespace vecihi.infrastructure
             return entities;
         }
 
-        public virtual async Task<ApiResult> Delete(Type id, Type? userId = null, bool isCommit = true, bool checkAuthorize = false)
+        public virtual async Task<ApiResult> Delete(Type id, Type userId, bool isCommit = true, bool checkAuthorize = false)
         {
             Entity entity = await DeleteMapping(id, userId);
 
@@ -221,11 +222,11 @@ namespace vecihi.infrastructure
             if (entity is IModelAuditBase<Type, User>)
             {
                 // Access Control
-                if (checkAuthorize && userId != null && !(entity as IModelAuditBase<Type, User>).CreatedBy.Equals(userId.Value))
+                if (checkAuthorize && !(entity as IModelAuditBase<Type, User>).CreatedBy.Equals(userId))
                     return new ApiResult { Message = ApiResultMessages.GNW0001 };
 
                 (entity as IModelAuditBase<Type, User>).UpdatedAt = DateTime.UtcNow;
-                (entity as IModelAuditBase<Type, User>).UpdatedBy = userId.Value;
+                (entity as IModelAuditBase<Type, User>).UpdatedBy = userId;
             }
 
             entity.IsDeleted = true;
@@ -247,11 +248,46 @@ namespace vecihi.infrastructure
             return await _mapper.ProjectTo<CardDto>(query).FirstOrDefaultAsync();
         }
 
-        public virtual IQueryable<Entity> PrepareGetQuery(FilterDto parameters)
+        public virtual IQueryable<Entity> OrderQuery(IQueryable<Entity> query, string sortField = null, bool sortOrder = true)
+        {
+            if (string.IsNullOrWhiteSpace(sortField))
+                return query;
+
+            var prop = typeof(ListDto).GetProperty(sortField, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
+
+            if (prop == null)
+                return query;
+
+            var att = prop.CustomAttributes
+                .Where(x => x.AttributeType == typeof(OrderAttribute))
+                .Select(st => st.ConstructorArguments
+                    .Select(sc => sc.Value)
+                    .ToList())
+                .FirstOrDefault();
+
+            // if use order attribute.
+            if (att != null)
+            {
+                if ((bool)att[1])
+                    return query;
+
+                sortField = (att[0] != null && !string.IsNullOrWhiteSpace(att[0].ToString())) ? att[0].ToString() : sortField;
+            }
+
+            if (sortOrder)
+                query = query.OrderBy(sortField);
+            else
+                query = query.OrderByDescending(sortField);
+
+            return query;
+        }
+
+        public virtual IQueryable<Entity> PrepareGetQuery(FilterDto parameters, string sortField = null, bool sortOrder = true)
         {
             var query = _uow.Repository<Entity>().Query();
 
-            var properties = typeof(FilterDto).GetProperties()
+            var properties = typeof(FilterDto)
+                .GetProperties()
                 .Select(s => new
                 {
                     name = s.Name,
@@ -288,14 +324,14 @@ namespace vecihi.infrastructure
                 {
                     if (!string.IsNullOrWhiteSpace(prop.value.ToString()))
                     {
-                        if (searchType == SearchType.Contains)
-                            query = query.Contains(dbName, prop.value.ToString());
-                        else if (searchType == SearchType.Equal)
-                            query = query.Equal(dbName, prop.value.ToString());
-                        else
-                            throw new Exception(string.Format(
-                                format: "{0} is a string type property. You can not query a property of type {1} {2}.",
-                                arg0: dbName, arg1: prop.type, arg2: searchType));
+                        query = searchType switch
+                        {
+                            SearchType.Contains => query.Contains(dbName, prop.value.ToString()),
+                            SearchType.Equal => query.Equal(dbName, prop.value.ToString()),
+                            _ => throw new Exception(string.Format(
+                               format: "{0} is a string type property. You can not query a property of type {1} {2}.",
+                               arg0: dbName, arg1: prop.type, arg2: searchType)),
+                        };
                     }
                 }
 
@@ -303,75 +339,59 @@ namespace vecihi.infrastructure
                         prop.type == TypeCode.Decimal || prop.type == TypeCode.Byte || prop.type == TypeCode.Int64 ||
                         prop.type == TypeCode.UInt16 || prop.type == TypeCode.UInt32 || prop.type == TypeCode.UInt64)
                 {
-                    switch (searchType)
+                    query = searchType switch
                     {
-                        case SearchType.Equal:
-                            query = query.Equal(dbName, prop.value);
-                            break;
-                        case SearchType.GreaterThan:
-                            query = query.GreaterThan(dbName, prop.value);
-                            break;
-                        case SearchType.GreaterThanOrEqual:
-                            query = query.GreaterThanOrEqual(dbName, prop.value);
-                            break;
-                        case SearchType.LessThan:
-                            query = query.LessThan(dbName, prop.value);
-                            break;
-                        case SearchType.LessThanOrEqual:
-                            query = query.LessThanOrEqual(dbName, prop.value);
-                            break;
-                        default:
-                            throw new Exception(string.Format(
+                        SearchType.Equal => query.Equal(dbName, prop.value),
+                        SearchType.GreaterThan => query.GreaterThan(dbName, prop.value),
+                        SearchType.GreaterThanOrEqual => query.GreaterThanOrEqual(dbName, prop.value),
+                        SearchType.LessThan => query.LessThan(dbName, prop.value),
+                        SearchType.LessThanOrEqual => query.LessThanOrEqual(dbName, prop.value),
+                        _ => throw new Exception(string.Format(
                                 format: "{0} is a numeric type property. You can not query a property of type {1} {2}.",
-                                arg0: dbName, arg1: prop.type, arg2: searchType));
-                    }
+                                arg0: dbName, arg1: prop.type, arg2: searchType)),
+                    };
                 }
 
                 else if (prop.type == TypeCode.Boolean)
                 {
-                    if (searchType == SearchType.Equal)
-                        query = query.Equal(dbName, prop.value);
-                    else
-                        throw new Exception(string.Format(
+                    query = searchType switch
+                    {
+                        SearchType.Equal => query = query.Equal(dbName, prop.value),
+                        _ => throw new Exception(string.Format(
                             format: "{0} is a boolean type property. You can not query a property of type {1} {2}.",
-                            arg0: dbName, arg1: prop.type, arg2: searchType));
+                            arg0: dbName, arg1: prop.type, arg2: searchType))
+                    };
                 }
 
                 else if (prop.type == TypeCode.Object)
                 {
                     if (!Guid.Parse(prop.value.ToString()).IsNullOrEmpty())
                     {
-                        if (searchType == SearchType.Equal)
-                            query = query.Equal(dbName, prop.value);
-                        else
-                            throw new Exception(string.Format(
-                                format: "{0} is a object type property. You can not query a property of type {1} {2}.",
-                                arg0: dbName, arg1: prop.type, arg2: searchType));
+                        query = searchType switch
+                        {
+                            SearchType.Equal => query.Equal(dbName, prop.value),
+                            _ => throw new Exception(string.Format(
+                               format: "{0} is a object type property. You can not query a property of type {1} {2}.",
+                               arg0: dbName, arg1: prop.type, arg2: searchType)),
+                        };
                     }
                 }
 
                 else if (prop.type == TypeCode.DateTime)
                 {
-                    switch (searchType)
+                    query = searchType switch
                     {
-                        case SearchType.Equal:
-                            query = query.DiffDaysEqual(dbName, prop.value);
-                            break;
-                        case SearchType.GreaterThanOrEqual:
-                            query = query.DiffDaysGreaterThan(dbName, prop.value);
-                            break;
-                        case SearchType.LessThanOrEqual:
-                            query = query.DiffDaysLessThan(dbName, prop.value);
-                            break;
-                        default:
-                            throw new Exception(string.Format(
+                        SearchType.Equal => query.DiffDaysEqual(dbName, prop.value),
+                        SearchType.GreaterThanOrEqual => query.DiffDaysGreaterThan(dbName, prop.value),
+                        SearchType.LessThanOrEqual => query.DiffDaysLessThan(dbName, prop.value),
+                        _ => throw new Exception(string.Format(
                                 format: "{0} is a datetime type property. You can not query a property of type {1} {2}.",
-                                arg0: dbName, arg1: prop.type, arg2: searchType));
-                    }
+                                arg0: dbName, arg1: prop.type, arg2: searchType)),
+                    };
                 }
             }
 
-            return query;
+            return OrderQuery(query, sortField, sortOrder);
         }
 
         public virtual async Task<IList<AutocompleteDto<Type>>> Autocomplete(FilterDto parameters, Type? id = null, string text = null)
@@ -391,15 +411,7 @@ namespace vecihi.infrastructure
 
         public virtual async Task<IList<ListDto>> Get(FilterDto parameters, string sortField = null, bool sortOrder = true)
         {
-            var query = PrepareGetQuery(parameters);
-
-            if (!string.IsNullOrWhiteSpace(sortField))
-            {
-                if (sortOrder)
-                    query = query.OrderBy(sortField);
-                else
-                    query = query.OrderByDescending(sortField);
-            }
+            var query = PrepareGetQuery(parameters, sortField, sortOrder);
 
             return await _mapper.ProjectTo<ListDto>(query).ToListAsync();
         }
@@ -407,15 +419,7 @@ namespace vecihi.infrastructure
         public virtual async Task<PagingDto> GetPaging(FilterDto parameters, string sortField = null, bool sortOrder = true,
             string sumField = null, int? pageSize = null, int? pageNumber = null)
         {
-            var query = PrepareGetQuery(parameters);
-
-            if (!string.IsNullOrWhiteSpace(sortField))
-            {
-                if (sortOrder)
-                    query = query.OrderBy(sortField);
-                else
-                    query = query.OrderByDescending(sortField);
-            }
+            var query = PrepareGetQuery(parameters, sortField, sortOrder);
 
             // Get records count.
             int? dataCount = await query.CountAsync();
@@ -447,15 +451,7 @@ namespace vecihi.infrastructure
 
         public virtual async Task<MemoryStream> ExportToExcel(FilterDto parameters, string sortField = null, bool sortOrder = true)
         {
-            var query = PrepareGetQuery(parameters);
-
-            if (!string.IsNullOrWhiteSpace(sortField))
-            {
-                if (sortOrder)
-                    query = query.OrderBy(sortField);
-                else
-                    query = query.OrderByDescending(sortField);
-            }
+            var query = PrepareGetQuery(parameters, sortField, sortOrder);
 
             var data = await _mapper.ProjectTo<ExportDto>(query).ToListAsync();
 
@@ -477,15 +473,13 @@ namespace vecihi.infrastructure
 
             string sheetName = typeof(Entity).Name;
 
-            using (XLWorkbook workBook = new XLWorkbook())
-            {
-                workBook.Worksheets.Add(table, sheetName);
+            using XLWorkbook workBook = new XLWorkbook();
+            workBook.Worksheets.Add(table, sheetName);
 
-                MemoryStream stream = new MemoryStream();
-                workBook.SaveAs(stream);
+            MemoryStream stream = new MemoryStream();
+            workBook.SaveAs(stream);
 
-                return stream;
-            }
+            return stream;
         }
     }
 }

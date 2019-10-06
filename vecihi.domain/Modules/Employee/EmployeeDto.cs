@@ -28,6 +28,15 @@ namespace vecihi.domain.Modules
         public string Name { get; set; }
         public string Phone { get; set; }
         public string Title { get; set; }
+
+        #region User
+
+        [Order(ignore: true)]
+        public Guid? UserId { get; set; }
+        [Order("User.Email")]
+        public string UserEmail { get; set; }
+
+        #endregion
     }
 
     public class EmployeeCardDto : EmployeeListDto, IDtoAuditBase
@@ -61,6 +70,8 @@ namespace vecihi.domain.Modules
         public string Phone { get; set; }
         [Filter(SearchType.Contains)]
         public string Title { get; set; }
+        [Filter(SearchType.Contains, dbName: "User.Email")]
+        public string UserEmail { get; set; }
     }
 
     public class InfoForJwtDto

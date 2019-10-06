@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using vecihi.database;
+using vecihi.helper.Extensions;
 using vecihi.infrastructure.entity.models;
 
 namespace vecihi.infrastructure
@@ -11,7 +12,7 @@ namespace vecihi.infrastructure
         where Type : struct
     {
         VecihiDbContext Context { get; set; }
-        Task Add(Entity entity);
+        Task AddAsync(Entity entity);
         Task<Entity> GetById(Type id, bool isDeleted = false);
         IQueryable<Entity> Get(bool isDeleted = false);
         IQueryable<Entity> Query(bool isDeleted = false);
@@ -28,7 +29,7 @@ namespace vecihi.infrastructure
             Context = context;
         }
 
-        public virtual async Task Add(Entity entity)
+        public virtual async Task AddAsync(Entity entity)
         {
             await Context
                 .Set<Entity>()
