@@ -19,7 +19,7 @@ using static vecihi.helper.Const.Enums;
 
 namespace vecihi.infrastructure
 {
-    public interface IServiceBase<AddDto, UpdateDto, ListDto, CardDto, PagingDto,ExportDto, FilterDto, Entity, Type>
+    public interface IServiceBase<AddDto, UpdateDto, ListDto, CardDto, PagingDto, ExportDto, FilterDto, Entity, Type>
         : ICRUDInterface<AddDto, UpdateDto, ListDto, CardDto, PagingDto, ExportDto, FilterDto, Type>
         where Type : struct
         where Entity : ModelBase<Type>
@@ -29,7 +29,18 @@ namespace vecihi.infrastructure
         where PagingDto : DtoPagingBase<Type, ListDto>, new()
     {
         Entity AddMapping(AddDto model, Type userId);
+        ICollection<ChildEntity> AddMappingChild<ChildEntity>(ICollection<ChildEntity> entities, Type userId)
+           where ChildEntity : ModelBase<Type>;
+        ICollection<ChildEntity> AddMappingChild<ChildEntity, ChildModel>(ICollection<ChildEntity> entities, IList<ChildModel> models, Type userId)
+            where ChildEntity : ModelBase<Type>
+            where ChildModel : DtoUpdateBase<Type>;
         Task<Entity> UpdateMapping(UpdateDto model, Type userId);
+        Task<IList<Type>> UpdateMappingChild<ChildEntity, ChildModel>(IList<ChildModel> models, Type userId)
+            where ChildEntity : ModelBase<Type>
+            where ChildModel : DtoUpdateBase<Type>;
+        Task<Entity> DeleteMapping(Type id, Type? userId = null, IList<string> navigations = null);
+        ICollection<ChildEntity> DeleteMappingChild<ChildEntity>(ICollection<ChildEntity> entities, Type? userId = null)
+            where ChildEntity : ModelBase<Type>;
         IQueryable<Entity> PrepareGetQuery(FilterDto parameters);
     }
 
@@ -43,7 +54,7 @@ namespace vecihi.infrastructure
         where PagingDto : DtoPagingBase<Type, ListDto>, new()
     {
         protected UnitOfWork<Type> _uow;
-        private readonly IMapper _mapper;
+        protected IMapper _mapper;
 
         public ServiceBase(UnitOfWork<Type> uow, IMapper mapper)
         {
@@ -70,6 +81,34 @@ namespace vecihi.infrastructure
             }
 
             return entity;
+        }
+
+        public virtual ICollection<ChildEntity> AddMappingChild<ChildEntity>(ICollection<ChildEntity> entities, Type userId)
+            where ChildEntity : ModelBase<Type>
+        {
+            entities.ToList().ForEach(entity =>
+            {
+                if (entity is IModelAuditBase<Type>)
+                {
+                    (entity as IModelAuditBase<Type>).CreatedBy = userId;
+                    (entity as IModelAuditBase<Type>).CreatedAt = DateTime.UtcNow;
+                }
+            });
+
+            return entities;
+        }
+
+        public virtual ICollection<ChildEntity> AddMappingChild<ChildEntity, ChildModel>(ICollection<ChildEntity> entities, IList<ChildModel> models, Type userId)
+            where ChildEntity : ModelBase<Type>
+            where ChildModel : DtoUpdateBase<Type>
+        {
+            if (models.Count > 0)
+            {
+                var newRecordsModel = models.Where(x => x.Id.Equals(null) || x.Id.Equals(Guid.Empty)).ToList();
+                _mapper.Map(newRecordsModel, entities);
+            }
+
+            return AddMappingChild(entities, userId);
         }
 
         public virtual async Task<ApiResult> Add(AddDto model, Type userId, bool isCommit = true)
@@ -99,6 +138,31 @@ namespace vecihi.infrastructure
             return entity;
         }
 
+        public virtual async Task<IList<Type>> UpdateMappingChild<ChildEntity, ChildModel>(IList<ChildModel> models, Type userId)
+            where ChildEntity : ModelBase<Type>
+            where ChildModel : DtoUpdateBase<Type>
+        {
+            var updateRecordsModel = models.Where(x => !(x.Id.Equals(null) || x.Id.Equals(Guid.Empty))).ToList();
+            var Ids = updateRecordsModel.Select(s => s.Id).ToList();
+
+            var query = _uow.Repository<ChildEntity>().Get().Where(x => Ids.Contains(x.Id));
+
+            var entities = await query.ToListAsync();
+
+            foreach (var entity in entities)
+            {
+                _mapper.Map(updateRecordsModel.Where(x => x.Id.Equals(entity.Id)).FirstOrDefault(), entity);
+
+                if (entity is IModelAuditBase<Type>)
+                {
+                    (entity as IModelAuditBase<Type>).UpdatedAt = DateTime.UtcNow;
+                    (entity as IModelAuditBase<Type>).UpdatedBy = userId;
+                }
+            }
+
+            return Ids;
+        }
+
         public virtual async Task<ApiResult> Update(UpdateDto model, Type userId, bool isCommit = true, bool checkAuthorize = false)
         {
             Entity entity = await UpdateMapping(model, userId);
@@ -116,9 +180,39 @@ namespace vecihi.infrastructure
             return new ApiResult { Data = entity.Id, Message = ApiResultMessages.Ok };
         }
 
+        public virtual async Task<Entity> DeleteMapping(Type id, Type? userId = null, IList<string> navigations = null)
+        {
+            var query = _uow.Repository<Entity>().Get().Equal("Id", id);
+
+            if (navigations != null)
+            {
+                foreach (var navigation in navigations)
+                    query = query.Include(navigation);
+            }
+
+            return await query.FirstOrDefaultAsync();
+        }
+
+        public virtual ICollection<ChildEntity> DeleteMappingChild<ChildEntity>(ICollection<ChildEntity> entities, Type? userId = null)
+            where ChildEntity : ModelBase<Type>
+        {
+            entities.ToList().ForEach(entity =>
+            {
+                if (entity is IModelAuditBase<Type>)
+                {
+                    (entity as IModelAuditBase<Type>).UpdatedAt = DateTime.UtcNow;
+                    (entity as IModelAuditBase<Type>).UpdatedBy = userId.Value;
+                }
+
+                entity.IsDeleted = true;
+            });
+
+            return entities;
+        }
+
         public virtual async Task<ApiResult> Delete(Type id, Type? userId = null, bool isCommit = true, bool checkAuthorize = false)
         {
-            Entity entity = await _uow.Repository<Entity>().GetById(id);
+            Entity entity = await DeleteMapping(id, userId);
 
             if (entity == null)
                 return new ApiResult { Data = id, Message = ApiResultMessages.GNE0001 };
@@ -350,7 +444,7 @@ namespace vecihi.infrastructure
             };
         }
 
-        public virtual async Task <MemoryStream> ExportToExcel(FilterDto parameters, string sortField = null, bool sortOrder = true)
+        public virtual async Task<MemoryStream> ExportToExcel(FilterDto parameters, string sortField = null, bool sortOrder = true)
         {
             var query = PrepareGetQuery(parameters);
 
