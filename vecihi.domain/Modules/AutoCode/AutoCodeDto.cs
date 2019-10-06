@@ -21,8 +21,10 @@ namespace vecihi.domain.Modules
         public string CodeFormat { get; set; }
     }
 
-    public class AutoCodeUpdateDto : DtoUpdateBase<Guid>
+    public class AutoCodeUpdateDto : IDtoUpdateBase<Guid>
     {
+        [Required]
+        public Guid Id { get; set; }
         /// <summary>
         /// Sample code format = "TC-{0}-VC"
         /// </summary>
@@ -30,8 +32,9 @@ namespace vecihi.domain.Modules
         public string CodeFormat { get; set; }
     }
 
-    public class AutoCodeListDto : DtoGetBase<Guid>
+    public class AutoCodeListDto : IDtoGetBase<Guid>
     {
+        public Guid Id { get; set; }
         public string ScreenCode { get; set; }
         public string CodeFormat { get; set; }
         public int LastCodeNumber { get; set; }

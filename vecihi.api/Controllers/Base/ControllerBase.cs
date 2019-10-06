@@ -19,9 +19,9 @@ namespace vecihi.api.Controllers
     public abstract class ControllerBase<AddDto, UpdateDto, ListDto, CardDto, PagingDto, ExportDto, FilterDto, Service, Type>
         : ControllerBase
         where Type : struct
-        where UpdateDto : DtoUpdateBase<Type>
-        where ListDto : DtoGetBase<Type>
-        where CardDto : DtoGetBase<Type>
+        where UpdateDto : IDtoUpdateBase<Type>
+        where ListDto : IDtoGetBase<Type>
+        where CardDto : IDtoGetBase<Type>
         where PagingDto : DtoPagingBase<Type, ListDto>, new()
         where Service : ICRUDInterface<AddDto, UpdateDto, ListDto, CardDto, PagingDto, ExportDto, FilterDto, Type>
     {

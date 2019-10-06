@@ -12,6 +12,8 @@ namespace vecihi.domain.Modules
 
     public class RegisterDto
     {
+        [Required, MaxLength(50)]
+        public string Name { get; set; }
         [Required]
         public string UserName { get; set; }
         [Required]

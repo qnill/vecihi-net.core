@@ -13,7 +13,7 @@ namespace vecihi.database.model
     /// the corresponding service is triggered and the automatic code is generated before
     /// the 'post' operation is performed on the code format defined screen.
     /// </summary>
-    public class AutoCode : ModelAuditBase<Guid>
+    public class AutoCode : ModelAuditBase<Guid, User>
     {
         /// <summary>
         /// Fixed screen codes
@@ -37,5 +37,4 @@ namespace vecihi.database.model
             AutoCodeLogs = new List<AutoCodeLog>();
         }
     }
-
 }

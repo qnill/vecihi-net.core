@@ -4,7 +4,7 @@ namespace vecihi.infrastructure.entity.dtos
 {
     public abstract class DtoPagingBase<Type, ListDto>
         where Type : struct
-        where ListDto : DtoGetBase<Type>
+        where ListDto : IDtoGetBase<Type>
     {
         public int DataCount { get; set; }
         public double? Sum { get; set; }

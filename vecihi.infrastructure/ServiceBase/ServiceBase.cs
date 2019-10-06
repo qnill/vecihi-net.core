@@ -9,6 +9,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using vecihi.database.model;
 using vecihi.helper;
 using vecihi.helper.Attributes;
 using vecihi.helper.Const;
@@ -23,9 +24,9 @@ namespace vecihi.infrastructure
         : ICRUDInterface<AddDto, UpdateDto, ListDto, CardDto, PagingDto, ExportDto, FilterDto, Type>
         where Type : struct
         where Entity : ModelBase<Type>
-        where UpdateDto : DtoUpdateBase<Type>
-        where ListDto : DtoGetBase<Type>
-        where CardDto : DtoGetBase<Type>
+        where UpdateDto : IDtoUpdateBase<Type>
+        where ListDto : IDtoGetBase<Type>
+        where CardDto : IDtoGetBase<Type>
         where PagingDto : DtoPagingBase<Type, ListDto>, new()
     {
         Entity AddMapping(AddDto model, Type userId);
@@ -33,11 +34,11 @@ namespace vecihi.infrastructure
            where ChildEntity : ModelBase<Type>;
         ICollection<ChildEntity> AddMappingChild<ChildEntity, ChildModel>(ICollection<ChildEntity> entities, IList<ChildModel> models, Type userId)
             where ChildEntity : ModelBase<Type>
-            where ChildModel : DtoUpdateBase<Type>;
+            where ChildModel : IDtoUpdateBase<Type>;
         Task<Entity> UpdateMapping(UpdateDto model, Type userId);
         Task<IList<Type>> UpdateMappingChild<ChildEntity, ChildModel>(IList<ChildModel> models, Type userId)
             where ChildEntity : ModelBase<Type>
-            where ChildModel : DtoUpdateBase<Type>;
+            where ChildModel : IDtoUpdateBase<Type>;
         Task<Entity> DeleteMapping(Type id, Type? userId = null, IList<string> navigations = null);
         ICollection<ChildEntity> DeleteMappingChild<ChildEntity>(ICollection<ChildEntity> entities, Type? userId = null)
             where ChildEntity : ModelBase<Type>;
@@ -48,9 +49,9 @@ namespace vecihi.infrastructure
         : IServiceBase<AddDto, UpdateDto, ListDto, CardDto, PagingDto, ExportDto, FilterDto, Entity, Type>
         where Type : struct
         where Entity : ModelBase<Type>
-        where UpdateDto : DtoUpdateBase<Type>
-        where ListDto : DtoGetBase<Type>
-        where CardDto : DtoGetBase<Type>
+        where UpdateDto : IDtoUpdateBase<Type>
+        where ListDto : IDtoGetBase<Type>
+        where CardDto : IDtoGetBase<Type>
         where PagingDto : DtoPagingBase<Type, ListDto>, new()
     {
         protected UnitOfWork<Type> _uow;
@@ -74,10 +75,10 @@ namespace vecihi.infrastructure
                     entity.Id = (Type)TypeDescriptor.GetConverter(typeof(Type)).ConvertFromInvariantString(Guid.NewGuid().ToString());
             }
 
-            if (entity is IModelAuditBase<Type>)
+            if (entity is IModelAuditBase<Type, User>)
             {
-                (entity as IModelAuditBase<Type>).CreatedBy = userId;
-                (entity as IModelAuditBase<Type>).CreatedAt = DateTime.UtcNow;
+                (entity as IModelAuditBase<Type, User>).CreatedBy = userId;
+                (entity as IModelAuditBase<Type, User>).CreatedAt = DateTime.UtcNow;
             }
 
             return entity;
@@ -88,10 +89,10 @@ namespace vecihi.infrastructure
         {
             entities.ToList().ForEach(entity =>
             {
-                if (entity is IModelAuditBase<Type>)
+                if (entity is IModelAuditBase<Type, User>)
                 {
-                    (entity as IModelAuditBase<Type>).CreatedBy = userId;
-                    (entity as IModelAuditBase<Type>).CreatedAt = DateTime.UtcNow;
+                    (entity as IModelAuditBase<Type, User>).CreatedBy = userId;
+                    (entity as IModelAuditBase<Type, User>).CreatedAt = DateTime.UtcNow;
                 }
             });
 
@@ -100,7 +101,7 @@ namespace vecihi.infrastructure
 
         public virtual ICollection<ChildEntity> AddMappingChild<ChildEntity, ChildModel>(ICollection<ChildEntity> entities, IList<ChildModel> models, Type userId)
             where ChildEntity : ModelBase<Type>
-            where ChildModel : DtoUpdateBase<Type>
+            where ChildModel : IDtoUpdateBase<Type>
         {
             if (models.Count > 0)
             {
@@ -127,10 +128,10 @@ namespace vecihi.infrastructure
         {
             Entity entity = await _uow.Repository<Entity>().GetById(model.Id);
 
-            if (entity is IModelAuditBase<Type>)
+            if (entity is IModelAuditBase<Type, User>)
             {
-                (entity as IModelAuditBase<Type>).UpdatedBy = userId;
-                (entity as IModelAuditBase<Type>).UpdatedAt = DateTime.UtcNow;
+                (entity as IModelAuditBase<Type, User>).UpdatedBy = userId;
+                (entity as IModelAuditBase<Type, User>).UpdatedAt = DateTime.UtcNow;
             }
 
             _mapper.Map(model, entity);
@@ -140,7 +141,7 @@ namespace vecihi.infrastructure
 
         public virtual async Task<IList<Type>> UpdateMappingChild<ChildEntity, ChildModel>(IList<ChildModel> models, Type userId)
             where ChildEntity : ModelBase<Type>
-            where ChildModel : DtoUpdateBase<Type>
+            where ChildModel : IDtoUpdateBase<Type>
         {
             var updateRecordsModel = models.Where(x => !(x.Id.Equals(null) || x.Id.Equals(Guid.Empty))).ToList();
             var Ids = updateRecordsModel.Select(s => s.Id).ToList();
@@ -153,10 +154,10 @@ namespace vecihi.infrastructure
             {
                 _mapper.Map(updateRecordsModel.Where(x => x.Id.Equals(entity.Id)).FirstOrDefault(), entity);
 
-                if (entity is IModelAuditBase<Type>)
+                if (entity is IModelAuditBase<Type, User>)
                 {
-                    (entity as IModelAuditBase<Type>).UpdatedAt = DateTime.UtcNow;
-                    (entity as IModelAuditBase<Type>).UpdatedBy = userId;
+                    (entity as IModelAuditBase<Type, User>).UpdatedAt = DateTime.UtcNow;
+                    (entity as IModelAuditBase<Type, User>).UpdatedBy = userId;
                 }
             }
 
@@ -171,7 +172,7 @@ namespace vecihi.infrastructure
                 return new ApiResult { Data = model.Id, Message = ApiResultMessages.GNE0001 };
 
             // Access Control
-            if (entity is IModelAuditBase<Type> && checkAuthorize && !(entity as IModelAuditBase<Type>).CreatedBy.Equals(userId))
+            if (entity is IModelAuditBase<Type, User> && checkAuthorize && !(entity as IModelAuditBase<Type, User>).CreatedBy.Equals(userId))
                 return new ApiResult { Data = model.Id, Message = ApiResultMessages.GNW0001 };
 
             if (isCommit)
@@ -198,10 +199,10 @@ namespace vecihi.infrastructure
         {
             entities.ToList().ForEach(entity =>
             {
-                if (entity is IModelAuditBase<Type>)
+                if (entity is IModelAuditBase<Type, User>)
                 {
-                    (entity as IModelAuditBase<Type>).UpdatedAt = DateTime.UtcNow;
-                    (entity as IModelAuditBase<Type>).UpdatedBy = userId.Value;
+                    (entity as IModelAuditBase<Type, User>).UpdatedAt = DateTime.UtcNow;
+                    (entity as IModelAuditBase<Type, User>).UpdatedBy = userId.Value;
                 }
 
                 entity.IsDeleted = true;
@@ -217,14 +218,14 @@ namespace vecihi.infrastructure
             if (entity == null)
                 return new ApiResult { Data = id, Message = ApiResultMessages.GNE0001 };
 
-            if (entity is IModelAuditBase<Type>)
+            if (entity is IModelAuditBase<Type, User>)
             {
                 // Access Control
-                if (checkAuthorize && userId != null && !(entity as IModelAuditBase<Type>).CreatedBy.Equals(userId.Value))
+                if (checkAuthorize && userId != null && !(entity as IModelAuditBase<Type, User>).CreatedBy.Equals(userId.Value))
                     return new ApiResult { Message = ApiResultMessages.GNW0001 };
 
-                (entity as IModelAuditBase<Type>).UpdatedAt = DateTime.UtcNow;
-                (entity as IModelAuditBase<Type>).UpdatedBy = userId.Value;
+                (entity as IModelAuditBase<Type, User>).UpdatedAt = DateTime.UtcNow;
+                (entity as IModelAuditBase<Type, User>).UpdatedBy = userId.Value;
             }
 
             entity.IsDeleted = true;

@@ -9,11 +9,15 @@ namespace vecihi.database
     {
         public static void Seed(this ModelBuilder builder)
         {
+            Guid userId = Guid.Parse("7cbf9971-7957-48dd-8198-3394a9bf0059");
+            Guid employeeId = Guid.Parse("0c5337a5-ca82-4c97-94e9-00101a1d749d");
+
             var hasher = new PasswordHasher<User>();
             builder.Entity<User>().HasData(
                 new User
                 {
-                    Id = Guid.Parse("7cbf9971-7957-48dd-8198-3394a9bf0059"),
+                    Id = userId,
+                    Name = "qnill",
                     UserName = "qnill",
                     NormalizedUserName = "QNILL",
                     Email = "qnill@foo.com",
@@ -27,12 +31,12 @@ namespace vecihi.database
             builder.Entity<Employee>().HasData(
                 new Employee
                 {
-                    Id = Guid.Parse("0c5337a5-ca82-4c97-94e9-00101a1d749d"),
+                    Id = employeeId,
                     Title = "Back-end Developer",
                     Name = "qnill",
-                    UserId = Guid.Parse("7cbf9971-7957-48dd-8198-3394a9bf0059"),
+                    UserId = userId,
                     CreatedAt = new DateTime(2019, 9, 1),
-                    CreatedBy = Guid.Parse("7cbf9971-7957-48dd-8198-3394a9bf0059")
+                    CreatedBy = userId
                 });
         }
     }

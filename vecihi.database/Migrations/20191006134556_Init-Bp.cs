@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace vecihi.database.Migrations
@@ -41,52 +40,11 @@ namespace vecihi.database.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    LastLoginDate = table.Column<DateTime>(nullable: true)
+                    Name = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AutoCode",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true),
-                    CreatedBy = table.Column<Guid>(nullable: false),
-                    UpdatedBy = table.Column<Guid>(nullable: true),
-                    ScreenCode = table.Column<string>(maxLength: 5, nullable: false),
-                    CodeFormat = table.Column<string>(maxLength: 20, nullable: false),
-                    LastCodeNumber = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AutoCode", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "File",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true),
-                    CreatedBy = table.Column<Guid>(nullable: false),
-                    UpdatedBy = table.Column<Guid>(nullable: true),
-                    RefId = table.Column<Guid>(nullable: false),
-                    ScreenCode = table.Column<string>(maxLength: 5, nullable: false),
-                    OriginalName = table.Column<string>(maxLength: 30, nullable: false),
-                    StorageName = table.Column<string>(maxLength: 50, nullable: false),
-                    Extension = table.Column<string>(maxLength: 10, nullable: false),
-                    Size = table.Column<long>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_File", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -109,7 +67,7 @@ namespace vecihi.database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<Guid>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -130,7 +88,7 @@ namespace vecihi.database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<Guid>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -211,14 +169,45 @@ namespace vecihi.database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AutoCode",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    CreatedBy = table.Column<Guid>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: true),
+                    UpdatedBy = table.Column<Guid>(nullable: true),
+                    ScreenCode = table.Column<string>(maxLength: 5, nullable: false),
+                    CodeFormat = table.Column<string>(maxLength: 20, nullable: false),
+                    LastCodeNumber = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AutoCode", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AutoCode_AspNetUsers_CreatedBy",
+                        column: x => x.CreatedBy,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AutoCode_AspNetUsers_UpdatedBy",
+                        column: x => x.UpdatedBy,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Employee",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     CreatedAt = table.Column<DateTime>(nullable: false),
-                    UpdatedAt = table.Column<DateTime>(nullable: true),
                     CreatedBy = table.Column<Guid>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: true),
                     UpdatedBy = table.Column<Guid>(nullable: true),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     Phone = table.Column<string>(maxLength: 20, nullable: true),
@@ -229,8 +218,54 @@ namespace vecihi.database.Migrations
                 {
                     table.PrimaryKey("PK_Employee", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Employee_AspNetUsers_CreatedBy",
+                        column: x => x.CreatedBy,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Employee_AspNetUsers_UpdatedBy",
+                        column: x => x.UpdatedBy,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Employee_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "File",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    CreatedBy = table.Column<Guid>(nullable: false),
+                    UpdatedAt = table.Column<DateTime>(nullable: true),
+                    UpdatedBy = table.Column<Guid>(nullable: true),
+                    RefId = table.Column<Guid>(nullable: false),
+                    ScreenCode = table.Column<string>(maxLength: 5, nullable: false),
+                    OriginalName = table.Column<string>(maxLength: 30, nullable: false),
+                    StorageName = table.Column<string>(maxLength: 50, nullable: false),
+                    Extension = table.Column<string>(maxLength: 10, nullable: false),
+                    Size = table.Column<long>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_File", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_File_AspNetUsers_CreatedBy",
+                        column: x => x.CreatedBy,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_File_AspNetUsers_UpdatedBy",
+                        column: x => x.UpdatedBy,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -266,8 +301,8 @@ namespace vecihi.database.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LastLoginDate", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"), 0, "", "qnill@foo.com", true, null, false, null, "QNILL@FOO.COM", "QNILL", "AQAAAAEAACcQAAAAEGr6w37fOE67RKFyHIWzTa39Efh0B6rqBnoCGUe09i98kleHeEhXvcyNRtRI5rgehA==", null, false, "", false, "qnill" });
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { new Guid("7cbf9971-7957-48dd-8198-3394a9bf0059"), 0, "", "qnill@foo.com", true, false, null, "qnill", "QNILL@FOO.COM", "QNILL", "AQAAAAEAACcQAAAAEJwZW2KftbtJeecTg6GlLQ6hFMyjz/4ybvfYp+Byr99YlhW4cajnaqD/UdRbmjtvfQ==", null, false, "", false, "qnill" });
 
             migrationBuilder.InsertData(
                 table: "Employee",
@@ -314,6 +349,16 @@ namespace vecihi.database.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AutoCode_CreatedBy",
+                table: "AutoCode",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AutoCode_UpdatedBy",
+                table: "AutoCode",
+                column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AutoCodeLog_AutoCodeId",
                 table: "AutoCodeLog",
                 column: "AutoCodeId");
@@ -324,9 +369,29 @@ namespace vecihi.database.Migrations
                 column: "GeneratedBy");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Employee_CreatedBy",
+                table: "Employee",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employee_UpdatedBy",
+                table: "Employee",
+                column: "UpdatedBy");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Employee_UserId",
                 table: "Employee",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_File_CreatedBy",
+                table: "File",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_File_UpdatedBy",
+                table: "File",
+                column: "UpdatedBy");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

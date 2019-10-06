@@ -8,9 +8,9 @@ namespace vecihi.infrastructure
 {
     public interface ICRUDInterface<AddDto, UpdateDto, ListDto, CardDto, PagingDto, ExportDto, FilterDto, Type>
         where Type : struct
-        where UpdateDto : DtoUpdateBase<Type>
-        where ListDto : DtoGetBase<Type>
-        where CardDto : DtoGetBase<Type>
+        where UpdateDto : IDtoUpdateBase<Type>
+        where ListDto : IDtoGetBase<Type>
+        where CardDto : IDtoGetBase<Type>
         where PagingDto : DtoPagingBase<Type, ListDto>, new()
     {
         Task<ApiResult> Add(AddDto model, Type userId, bool isCommit = true);

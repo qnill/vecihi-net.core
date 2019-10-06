@@ -15,22 +15,30 @@ namespace vecihi.domain.Modules
         public string Title { get; set; }
     }
 
-    public class EmployeeUpdateDto : DtoUpdateBase<Guid>
+    public class EmployeeUpdateDto : EmployeeAddDto, IDtoUpdateBase<Guid>
     {
-        [Required, MaxLength(50)]
-        public string Name { get; set; }
-        public string Title { get; set; }
+        [Required]
+        public Guid Id { get; set; }
     }
 
-    public class EmployeeListDto : DtoGetBase<Guid>
+    public class EmployeeListDto : IDtoGetBase<Guid>
     {
+        public Guid Id { get; set; }
+        public DateTime CreatedAt { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
         public string Title { get; set; }
     }
 
-    public class EmployeeCardDto : EmployeeListDto
+    public class EmployeeCardDto : EmployeeListDto, IDtoAuditBase
     {
+        #region Audit
+
+        public string CreatedUserName { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public string UpdatedUserName { get; set; }
+
+        #endregion
     }
 
     public class EmployeePagingDto : DtoPagingBase<Guid, EmployeeListDto>
