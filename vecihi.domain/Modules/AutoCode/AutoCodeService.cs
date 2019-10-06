@@ -36,19 +36,9 @@ namespace vecihi.domain.Modules
             return codeFormat.Contains("{0}");
         }
 
-        /// <summary>
-        /// Controls whether the screen code is in the <see cref="ScreenCodes"/> class.
-        /// </summary>
-        /// <param name="screenCode"></param>
-        /// <returns></returns>
-        public bool CheckScreenCode(string screenCode)
-        {
-            return typeof(ScreenCodes).GetFields().Any(x => x.Name == screenCode);
-        }
-
         public override async Task<ApiResult> Add(AutoCodeAddDto model, Guid userId, bool isCommit = true)
         {
-            if (!CheckScreenCode(model.ScreenCode))
+            if (!ScreenCodeValidation.Verification(model.ScreenCode))
                 return new ApiResult { Message = ApiResultMessages.ACW0002 };
 
             if (!CheckCodeFormat(model.CodeFormat))
