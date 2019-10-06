@@ -85,7 +85,7 @@ namespace vecihi.domain.Modules
                 await _autoCodeLogService.Add(new AutoCodeLog
                 {
                     CodeNumber = lastCodeNumber,
-                    CodeGenerationDate = DateTime.Now,
+                    CodeGenerationDate = DateTime.UtcNow,
                     AutoCodeId = entity.Id,
                     GeneratedBy = userId
                 }, false);

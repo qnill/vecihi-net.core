@@ -66,7 +66,7 @@ namespace vecihi.infrastructure
             if (entity is IModelAuditBase<Type>)
             {
                 (entity as IModelAuditBase<Type>).CreatedBy = userId;
-                (entity as IModelAuditBase<Type>).CreatedAt = DateTime.Now;
+                (entity as IModelAuditBase<Type>).CreatedAt = DateTime.UtcNow;
             }
 
             return entity;
@@ -91,7 +91,7 @@ namespace vecihi.infrastructure
             if (entity is IModelAuditBase<Type>)
             {
                 (entity as IModelAuditBase<Type>).UpdatedBy = userId;
-                (entity as IModelAuditBase<Type>).UpdatedAt = DateTime.Now;
+                (entity as IModelAuditBase<Type>).UpdatedAt = DateTime.UtcNow;
             }
 
             _mapper.Map(model, entity);
@@ -129,7 +129,7 @@ namespace vecihi.infrastructure
                 if (checkAuthorize && userId != null && !(entity as IModelAuditBase<Type>).CreatedBy.Equals(userId.Value))
                     return new ApiResult { Message = ApiResultMessages.GNW0001 };
 
-                (entity as IModelAuditBase<Type>).UpdatedAt = DateTime.Now;
+                (entity as IModelAuditBase<Type>).UpdatedAt = DateTime.UtcNow;
                 (entity as IModelAuditBase<Type>).UpdatedBy = userId.Value;
             }
 
