@@ -33,7 +33,7 @@ namespace vecihi.domain.Modules
         /// <returns></returns>
         public bool CheckCodeFormat(string codeFormat)
         {
-            return codeFormat.Contains("{0}");
+            return codeFormat.Contains("{0") && codeFormat.Contains("}");
         }
 
         public override async Task<ApiResult> Add(AutoCodeAddDto model, Guid userId, bool isCommit = true)
