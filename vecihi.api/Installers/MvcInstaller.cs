@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Converters;
 using vecihi.infrastructure;
 
 namespace vecihi.api.Installers
@@ -16,6 +17,7 @@ namespace vecihi.api.Installers
                     options.EnableEndpointRouting = false;
                     options.OutputFormatters.RemoveType<StringOutputFormatter>();
                 })
+                .AddNewtonsoftJson(options => options.SerializerSettings.Converters.Add(new StringEnumConverter()))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             #region Read-App-Parameters
